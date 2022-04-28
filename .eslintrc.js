@@ -6,7 +6,12 @@ module.exports = {
     sourceType: 'module',
   },
   plugins: ['@typescript-eslint/eslint-plugin', 'import'],
-  extends: ['plugin:@typescript-eslint/recommended', 'plugin:prettier/recommended', 'airbnb-base'],
+  extends: [
+    'plugin:@typescript-eslint/recommended',
+    'plugin:prettier/recommended',
+    'airbnb-base',
+    'prettier',
+  ],
   root: true,
   env: {
     node: true,
@@ -53,6 +58,7 @@ module.exports = {
       { enforceForRenamedProperties: true },
     ],
     'spaced-comment': ['error', 'always'],
+    'no-eval': ['error', { 'allowIndirect': false }],
     'import/extensions': ['error', 'always'],
     'import/no-extraneous-dependencies': ['error', { 'devDependencies': true }],
     'import/no-unresolved': 'off',
