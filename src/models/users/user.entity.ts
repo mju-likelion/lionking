@@ -1,16 +1,42 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+
+import { Memos } from '../memos/memos.entity';
+import { UserLounges } from '../userLounge/userLounges.entity';
 
 @Entity()
-export class User {
+export class Users {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  firstName: string;
+  @Column({ length: 10, nullable: true })
+  nickname: string;
 
-  @Column()
-  lastName: string;
+  @Column({ length: 5, nullable: true })
+  name: string;
 
-  @Column({ default: true })
-  isActive: boolean;
+  @Column({ nullable: true })
+  password: string;
+
+  @Column({ length: 30, nullable: true })
+  email: string;
+
+  @CreateDateColumn()
+  createAt: Date;
+
+  @UpdateDateColumn()
+  updateAt: Date;
+
+  @OneToMany(() => Memos, memo => memo.user)
+  memo: Memos[];
+
+  @OneToOne(() => UserLounges, UserLounge => UserLounge.user)
+  user: UserLounges[];
 }
