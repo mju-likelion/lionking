@@ -1,0 +1,45 @@
+name: slack
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: action-slack
+        uses: 8398a7/action-slack@v3
+
+        with:
+          status: custom
+          fields: workflow,job,commit,repo,author,pullRequest
+          custom_payload: |
+            {
+              attachments: [{
+                color: '${{ job.status }}' === 'success' ? 'good' : '${{ job.status }}' === 'failure' ? 'danger' : 'warning',
+                fields: [
+                  {
+                    title: 'PR 제목',
+                    value: `[${{ github.event.repository.name }}] ${{ github.event.pull_request.title }}`,
+                    short: false
+                  },
+                  {
+                    title: '작성자',
+                    value: `${process.env.AS_AUTHOR}`,
+                    short: false
+                  }
+                ],
+                title: '>>> 리뷰하러 가기 >>>',
+                title_link: '${{ github.event.pull_request.html_url }}',
+                thumb_url: '${{ github.event.pull_request.user.avatar_url }}',
+              }]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
+        if: always() # Pick up events even if the job fails or is canceled.
+    permissions:
+      contents: read
+      actions: read
