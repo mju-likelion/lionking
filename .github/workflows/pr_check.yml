@@ -25,7 +25,7 @@ jobs:
                     title: '레포지토리',
                     value: `${{ github.event.repository.name }}`,
                     short: false
-                  }
+                  },
                   {
                     title: 'PR 제목',
                     value: `${{ github.event.pull_request.title }}`,
