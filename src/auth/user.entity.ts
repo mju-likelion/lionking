@@ -1,18 +1,21 @@
 import {
+  BaseEntity,
   Column,
   CreateDateColumn,
   Entity,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
+  Unique,
   UpdateDateColumn,
 } from 'typeorm';
 
-import { Memos } from '../memos/memos.entity';
-import { UserLounges } from '../userLounge/userLounges.entity';
+import { Memos } from '../models/memos/memos.entity';
+import { UserLounges } from '../models/userLounge/userLounges.entity';
 
 @Entity()
-export class Users {
+@Unique(['nickname'])
+export class Users extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
