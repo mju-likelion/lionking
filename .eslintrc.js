@@ -59,7 +59,7 @@ module.exports = {
     ],
     'spaced-comment': ['error', 'always'],
     'no-eval': ['error', { 'allowIndirect': false }],
-    'import/extensions': ['error', 'always'],
+    'import/extensions': 'off',
     'import/no-extraneous-dependencies': ['error', { 'devDependencies': true }],
     'import/no-unresolved': 'off',
     'import/order': [
