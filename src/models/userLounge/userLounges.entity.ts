@@ -7,8 +7,8 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
+import { Users } from '../../auth/user.entity';
 import { Lounges } from '../lounges/lounges.entity';
-import { Users } from '../users/user.entity';
 
 @Entity()
 export class UserLounges {

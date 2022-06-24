@@ -7,7 +7,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-import { Users } from '../users/user.entity';
+import { Users } from '../../auth/user.entity';
 
 @Entity()
 export class Memos {
