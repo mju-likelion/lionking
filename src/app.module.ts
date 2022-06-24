@@ -1,6 +1,6 @@
 import { MailerModule } from '@nestjs-modules/mailer';
 import { EjsAdapter } from '@nestjs-modules/mailer/dist/adapters/ejs.adapter';
-import { Module } from '@nestjs/common';
+import { CacheModule, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
@@ -23,24 +23,19 @@ import { EmailModule } from './email/email.module';
     MailerModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (config: ConfigService) => {
-        // eslint-disable-next-line no-console
-        console.log('===== write [.env] by config: network====');
-        // eslint-disable-next-line no-console
-        console.log(config.get('email'));
-        return {
-          ...config.get('email'),
-          template: {
-            dir: '/Users/bagjaemin/Desktop/lionking/src/templates',
-            adapter: new EjsAdapter(),
-            options: {
-              strict: true,
-            },
+      useFactory: (config: ConfigService) => ({
+        ...config.get('email'),
+        template: {
+          dir: '/Users/bagjaemin/Desktop/lionking/src/templates',
+          adapter: new EjsAdapter(),
+          options: {
+            strict: true,
           },
-        };
-      },
+        },
+      }),
     }),
     EmailModule,
+    CacheModule.register(),
   ],
   controllers: [AppController],
   providers: [AppService],
