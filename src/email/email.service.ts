@@ -1,6 +1,6 @@
 import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable } from '@nestjs/common';
-import { emailCredentialDto } from 'src/auth/dto/email-credential.dto';
+import { EmailVerifyDto } from 'src/auth/dto/email-verify.dto';
 
 @Injectable()
 export class EmailService {
@@ -15,17 +15,16 @@ export class EmailService {
     await this.mailerService.sendMail({
       to: tos.join(', '),
       subject,
-      template: `${templateName}`,
+      template: `./${templateName}`,
       context,
     });
 
     return true;
   }
 
-  async signIn(to: emailCredentialDto) {
-    await this.mailSend([to.email], '로그인 시도', 'signin.ejs', {
-      email: to,
-      datetime: new Date(),
+  async emailSend(emailVerifyDto: EmailVerifyDto) {
+    await this.mailSend([emailVerifyDto.email], '로그인 시도', 'signin.ejs', {
+      token: emailVerifyDto.token,
     });
   }
 

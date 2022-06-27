@@ -26,7 +26,7 @@ import { EmailModule } from './email/email.module';
       useFactory: (config: ConfigService) => ({
         ...config.get('email'),
         template: {
-          dir: '/Users/bagjaemin/Desktop/lionking/src/templates',
+          dir: `${__dirname}/templates/`,
           adapter: new EjsAdapter(),
           options: {
             strict: true,
