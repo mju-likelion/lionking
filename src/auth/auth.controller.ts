@@ -3,6 +3,7 @@ import { ApiBody, ApiCreatedResponse, ApiResponse, ApiTags } from '@nestjs/swagg
 import { EmailService } from 'src/email/email.service';
 
 import { AuthService } from './auth.service';
+import { AuthCredentialsDto } from './dto/auth-credential.dto';
 import { EmailSendDto } from './dto/email-send.dto';
 import { EmailVerifyDto } from './dto/email-verify.dto';
 import { ResponseDto } from './dto/response.dto';
@@ -23,5 +24,10 @@ export class AuthController {
   @Post('/email-verify')
   async emailVerify(@Body(ValidationPipe) emailVerifyDto: EmailVerifyDto): Promise<ResponseDto> {
     return this.authService.emailVerify(emailVerifyDto);
+  }
+
+  @Post('signUp')
+  async signUp(@Body(ValidationPipe) authCredentialDto: AuthCredentialsDto): Promise<ResponseDto> {
+    return this.authService.signUp(authCredentialDto);
   }
 }

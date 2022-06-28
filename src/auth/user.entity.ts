@@ -7,7 +7,6 @@ import {
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
-  Unique,
   UpdateDateColumn,
 } from 'typeorm';
 
@@ -15,15 +14,14 @@ import { Memos } from '../models/memos/memos.entity';
 import { UserLounges } from '../models/userLounge/userLounges.entity';
 
 @Entity()
-@Unique(['nickname'])
 export class Users extends BaseEntity {
   @ApiProperty()
   @PrimaryGeneratedColumn()
   id: number;
 
   @ApiProperty()
-  @Column({ length: 10, nullable: true })
-  nickname: string;
+  @Column({ length: 11, nullable: true })
+  phone: string;
 
   @ApiProperty()
   @Column({ length: 5, nullable: true })

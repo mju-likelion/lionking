@@ -5,6 +5,7 @@ import { random, times } from 'lodash';
 import { ResponseDto } from 'src/auth/dto/response.dto';
 import { EmailService } from 'src/email/email.service';
 
+import { AuthCredentialsDto } from './dto/auth-credential.dto';
 import { EmailSendDto } from './dto/email-send.dto';
 import { EmailVerifyDto } from './dto/email-verify.dto';
 import { UserRepositroy } from './user-repository';
@@ -35,8 +36,14 @@ export class AuthService {
 
     if (userToken === emailVerifyDto.token) {
       const res = new ResponseDto('200', '인증이 완료되었습니다.');
+      await this.chcheManager.del(emailVerifyDto.email);
       return res;
     }
     throw new NotFoundException('인증에 실패하였습니다. 다시 인증을 시도해주세요');
+  }
+
+  async signUp(authCredentialDto: AuthCredentialsDto): Promise<ResponseDto> {
+    await this.userRepository.createUser(authCredentialDto);
+    return new ResponseDto('200', '회원가입이 완료되었습니다.');
   }
 }

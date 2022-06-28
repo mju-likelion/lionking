@@ -1,10 +1,10 @@
-import { IsDateString, IsString, MaxLength, MinLength } from 'class-validator';
+import { IsString, MaxLength, MinLength } from 'class-validator';
 
 export class AuthCredentialsDto {
   @IsString()
-  @MinLength(2)
-  @MaxLength(10)
-  nickname: string;
+  @MinLength(11)
+  @MaxLength(11)
+  phone: string;
 
   @IsString()
   @MinLength(2)
@@ -16,10 +16,4 @@ export class AuthCredentialsDto {
 
   @IsString()
   email: string;
-
-  @IsDateString()
-  createAt: Date;
-
-  @IsDateString()
-  updateAt: Date;
 }
