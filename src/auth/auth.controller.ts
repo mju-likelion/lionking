@@ -26,7 +26,7 @@ export class AuthController {
     return this.authService.emailVerify(emailVerifyDto);
   }
 
-  @Post('signUp')
+  @Post('/sign-up')
   async signUp(@Body(ValidationPipe) authCredentialDto: AuthCredentialsDto): Promise<ResponseDto> {
     return this.authService.signUp(authCredentialDto);
   }

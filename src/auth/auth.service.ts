@@ -8,13 +8,13 @@ import { EmailService } from 'src/email/email.service';
 import { AuthCredentialsDto } from './dto/auth-credential.dto';
 import { EmailSendDto } from './dto/email-send.dto';
 import { EmailVerifyDto } from './dto/email-verify.dto';
-import { UserRepositroy } from './user-repository';
+import { UserRepository } from './user-repository';
 
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectRepository(UserRepositroy)
-    private userRepository: UserRepositroy,
+    @InjectRepository(UserRepository)
+    private userRepository: UserRepository,
     private emailService: EmailService,
     @Inject(CACHE_MANAGER) private chcheManager: Cache,
   ) {}
