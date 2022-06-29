@@ -7,13 +7,15 @@ import {
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
+  Unique,
   UpdateDateColumn,
 } from 'typeorm';
 
-import { Memos } from '../models/memos/memos.entity';
-import { UserLounges } from '../models/userLounge/userLounges.entity';
+import { Memos } from '../memo/memos.entity';
+import { UserLounges } from '../user-lounge/user-lounge.entity';
 
 @Entity()
+@Unique(['email'])
 export class Users extends BaseEntity {
   @ApiProperty()
   @PrimaryGeneratedColumn()

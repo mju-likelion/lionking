@@ -1,3 +1,5 @@
+import { Users } from 'src/auth/user.entity';
+import { Lounges } from 'src/lounge/lounges.entity';
 import {
   Column,
   CreateDateColumn,
@@ -7,25 +9,23 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-import { Users } from '../../auth/user.entity';
-
 @Entity()
-export class Memos {
+export class UserLounges {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column({ length: 20, nullable: true })
-  title: string;
-
-  @Column({ length: 1000, nullable: true })
-  content: string;
+  loungeName: string;
 
   @CreateDateColumn()
-  createdAt: Date;
+  createAt: Date;
 
   @UpdateDateColumn()
-  updatedAt: Date;
+  updateAt: Date;
 
   @ManyToOne(() => Users, user => user.id)
   user: Users;
+
+  @ManyToOne(() => Lounges, lounge => lounge.id)
+  lounge: Lounges;
 }
