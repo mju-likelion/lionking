@@ -4,7 +4,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { MemoService } from './memo.service';
 
 @UseGuards(AuthGuard())
-@Controller('memos')
+@Controller('api/memos')
 export class MemoController {
   constructor(private readonly memoService: MemoService) {}
 
