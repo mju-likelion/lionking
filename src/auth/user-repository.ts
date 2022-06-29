@@ -6,7 +6,7 @@ import { AuthCredentialsDto } from './dto/auth-credential.dto';
 import { Users } from './user.entity';
 
 @EntityRepository(Users)
-export class UserRepositroy extends Repository<Users> {
+export class UserRepository extends Repository<Users> {
   async createUser(authCredentialDto: AuthCredentialsDto): Promise<void> {
     const { name, password, phone, email } = authCredentialDto;
 
@@ -18,8 +18,8 @@ export class UserRepositroy extends Repository<Users> {
     try {
       await this.save(user);
     } catch (error) {
-      if (error.code === '23505') {
-        throw new ConflictException('Existing username');
+      if (error.code === 'ER_DUP_ENTRY') {
+        throw new ConflictException('이미 있는 이메일 입니다.');
       } else {
         throw new InternalServerErrorException();
       }
