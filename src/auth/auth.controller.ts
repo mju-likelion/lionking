@@ -7,6 +7,8 @@ import { AuthCredentialsDto } from './dto/auth-credential.dto';
 import { EmailSendDto } from './dto/email-send.dto';
 import { EmailVerifyDto } from './dto/email-verify.dto';
 import { ResponseDto } from './dto/response.dto';
+import { SignInResponseDto } from './dto/sign-in-response.dto';
+import { SignInDto } from './dto/sign-in.dto';
 
 @ApiTags('Auth')
 @ApiResponse({ type: ResponseDto })
@@ -29,5 +31,10 @@ export class AuthController {
   @Post('/sign-up')
   async signUp(@Body(ValidationPipe) authCredentialDto: AuthCredentialsDto): Promise<ResponseDto> {
     return this.authService.signUp(authCredentialDto);
+  }
+
+  @Post('/sign-in')
+  async signIn(@Body(ValidationPipe) signInDto: SignInDto): Promise<SignInResponseDto> {
+    return this.authService.signIn(signInDto);
   }
 }

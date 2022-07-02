@@ -1,5 +1,13 @@
-import { CACHE_MANAGER, Inject, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  CACHE_MANAGER,
+  Inject,
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
+import * as bcrypt from 'bcryptjs';
 import { Cache } from 'cache-manager';
 import { random, times } from 'lodash';
 import { ResponseDto } from 'src/auth/dto/response.dto';
@@ -8,6 +16,8 @@ import { EmailService } from 'src/email/email.service';
 import { AuthCredentialsDto } from './dto/auth-credential.dto';
 import { EmailSendDto } from './dto/email-send.dto';
 import { EmailVerifyDto } from './dto/email-verify.dto';
+import { SignInResponseDto } from './dto/sign-in-response.dto';
+import { SignInDto } from './dto/sign-in.dto';
 import { UserRepository } from './user-repository';
 
 @Injectable()
@@ -16,6 +26,7 @@ export class AuthService {
     @InjectRepository(UserRepository)
     private userRepository: UserRepository,
     private emailService: EmailService,
+    private jwtService: JwtService,
     @Inject(CACHE_MANAGER) private chcheManager: Cache,
   ) {}
 
@@ -45,5 +56,17 @@ export class AuthService {
   async signUp(authCredentialDto: AuthCredentialsDto): Promise<ResponseDto> {
     await this.userRepository.createUser(authCredentialDto);
     return new ResponseDto('200', '회원가입이 완료되었습니다.');
+  }
+
+  async signIn(signInDto: SignInDto): Promise<SignInResponseDto> {
+    const { email, password } = signInDto;
+    const user = await this.userRepository.findOne({ email });
+
+    if (user && (await bcrypt.compare(password, user.password))) {
+      const payload = { id: user.id };
+      const accessToken = this.jwtService.sign(payload);
+      return new SignInResponseDto('200', '로그인에 성공하였습니다.', accessToken);
+    }
+    throw new UnauthorizedException('로그인에 실패하였습니다.');
   }
 }
