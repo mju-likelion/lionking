@@ -31,16 +31,10 @@ jobs:
             {
               attachments: [{
                 color: '${{ job.status }}' === 'success' ? 'good' : '${{ job.status }}' === 'failure' ? 'danger' : 'warning',
-                fields: [
-                  {
-                    title: '레포지토리',
-                    value: `${{ github.event.repository.name }}`,
-                    short: false
-                  }
-                ],
+                fields:
                  title: '라이언킹 타입체크',
-                 title_link: '${{ github.event.pull_request.html_url }}',
-                 thumb_url: '${{ github.event.pull_request.user.avatar_url }}',
+                 title_link: '${{ github.event.push.html_url }}',
+                 thumb_url: '${{ github.event.push.user.avatar_url }}',
                }]
             }
         env:
