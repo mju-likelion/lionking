@@ -2,7 +2,7 @@ name: slack
 
 on:
   push:
-    branches: [develop, feature/**]
+    branches: [develop]
 
 jobs:
   build:
@@ -26,8 +26,8 @@ jobs:
         uses: 8398a7/action-slack@v3
         with:
           status: ${{ job.status }}
-          author_name: Develop 브랜치 TS 타입체크 # default: 8398a7@action-slack
-          fields: branch, author
+          author_name: Develop merge TS 타입체크 # default: 8398a7@action-slack
+          fields: ref, author
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
         if: always() # Pick up events even if the job fails or is canceled.
