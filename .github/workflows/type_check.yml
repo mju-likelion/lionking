@@ -1,0 +1,33 @@
+name: slack
+
+on:
+  push:
+    branches: [develop]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: 'Type Check'
+
+    steps:
+      # ts 타입 체크
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+      - name: Type Check
+        run: |
+          yarn install
+          yarn tsc -v
+          yarn tsc
+
+      # 슬랙에 알림
+      - name: action-slack
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          author_name: Develop 브랜치 TS 타입체크 # default: 8398a7@action-slack
+          fields: commit,author
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
+        if: always() # Pick up events even if the job fails or is canceled.
