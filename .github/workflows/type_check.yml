@@ -56,7 +56,7 @@ jobs:
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
-        if: always() # Pick up events even if the job fails or is canceled.
+        if: failure() # Pick up events even if the job fails or is canceled.
     permissions:
       contents: read
       actions: read
