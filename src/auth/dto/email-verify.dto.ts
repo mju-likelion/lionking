@@ -4,8 +4,7 @@ import { EmailSendDto } from './email-send.dto';
 
 export class EmailVerifyDto extends EmailSendDto {
   constructor(email: string, token: string) {
-    super();
-    this.email = email;
+    super(email);
     this.token = token;
   }
 

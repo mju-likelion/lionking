@@ -1,4 +1,4 @@
-import { ConflictException, InternalServerErrorException } from '@nestjs/common';
+import { HttpException } from '@nestjs/common';
 import * as bcrypt from 'bcryptjs';
 import { EntityRepository, Repository } from 'typeorm';
 
@@ -19,9 +19,19 @@ export class UserRepository extends Repository<Users> {
       await this.save(user);
     } catch (error) {
       if (error.code === 'ER_DUP_ENTRY') {
-        throw new ConflictException('이미 있는 이메일 입니다.');
+        throw new HttpException(
+          {
+            data: { error: '이미 있는 이메일 입니다.' },
+          },
+          409,
+        );
       } else {
-        throw new InternalServerErrorException();
+        throw new HttpException(
+          {
+            data: { error: '의도치 않은 에러가 발생하였습니다.' },
+          },
+          500,
+        );
       }
     }
   }

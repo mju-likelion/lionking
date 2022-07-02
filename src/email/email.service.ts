@@ -22,8 +22,8 @@ export class EmailService {
     return true;
   }
 
-  async emailSend(emailVerifyDto: EmailVerifyDto) {
-    await this.mailSend([emailVerifyDto.email], '로그인 시도', 'signin.ejs', {
+  async emailSend(emailVerifyDto: EmailVerifyDto, subjcet: string, html: string) {
+    await this.mailSend([emailVerifyDto.email], subjcet, html, {
       token: emailVerifyDto.token,
     });
   }

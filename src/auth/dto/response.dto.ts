@@ -1,10 +1,7 @@
 export class ResponseDto {
-  constructor(status: string, message: string) {
-    this.status = status;
+  constructor(message: string) {
     this.data = { message };
   }
-
-  status: string;
 
   data: {
     message: string;
