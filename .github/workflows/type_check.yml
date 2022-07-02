@@ -2,7 +2,7 @@ name: slack
 
 on:
   push:
-    branches: [develop, feature/**]
+    branches: [develop]
 
 jobs:
   build:
@@ -26,7 +26,7 @@ jobs:
         uses: 8398a7/action-slack@v3
         with:
           status: ${{ job.status }}
-          author_name: develop 브랜치 TS 타입체크 # default: 8398a7@action-slack
+          author_name: Develop 브랜치 TS 타입체크 # default: 8398a7@action-slack
           fields: commit,author
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
