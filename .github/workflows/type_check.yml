@@ -24,39 +24,10 @@ jobs:
       # 슬랙에 알림
       - name: action-slack
         uses: 8398a7/action-slack@v3
-
         with:
-          status: custom
-          fields: workflow,job,commit,repo,author,pullRequest
-          custom_payload: |
-            {
-              attachments: [{
-                color: '${{ job.status }}' === 'success' ? 'good' : '${{ job.status }}' === 'failure' ? 'danger' : 'warning',
-                fields: [
-                  {
-                    title: '레포지토리',
-                    value: `${{ github.event.repository.name }}`,
-                    short: false
-                  },
-                  # {
-                  #   title: 'PR 제목',
-                  #   value: `${{ github.event.pull_request.title }}`,
-                  #   short: false
-                  # },
-                  {
-                    title: '작성자',
-                    value: `${process.env.AS_AUTHOR}`,
-                    short: false
-                  }
-                ],
-                title: 'TS 타입체크',
-                title_link: '${{ github.event.pull_request.html_url }}',
-                thumb_url: '${{ github.event.pull_request.user.avatar_url }}',
-              }]
-            }
+          status: ${{ job.status }}
+          author_name: Github Action Test # default: 8398a7@action-slack
+          fields: commit,author
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
         if: always() # Pick up events even if the job fails or is canceled.
-    permissions:
-      contents: read
-      actions: read
