@@ -38,18 +38,18 @@ jobs:
                     value: `${{ github.event.repository.name }}`,
                     short: false
                   },
-                  {
-                    title: 'PR 제목',
-                    value: `${{ github.event.pull_request.title }}`,
-                    short: false
-                  },
+                  # {
+                  #   title: 'PR 제목',
+                  #   value: `${{ github.event.pull_request.title }}`,
+                  #   short: false
+                  # },
                   {
                     title: '작성자',
                     value: `${process.env.AS_AUTHOR}`,
                     short: false
                   }
                 ],
-                title: '>>> 리뷰하러 가기 >>>',
+                title: 'TS 타입체크',
                 title_link: '${{ github.event.pull_request.html_url }}',
                 thumb_url: '${{ github.event.pull_request.user.avatar_url }}',
               }]
