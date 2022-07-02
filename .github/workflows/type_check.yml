@@ -40,7 +40,7 @@ jobs:
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
-        if: failure() # 실패할때만 알림
+        if: always() # 실패 성공 여부와 상관없이 알림
     permissions:
       contents: read
       actions: read
