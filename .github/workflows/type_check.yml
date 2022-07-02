@@ -32,15 +32,31 @@ jobs:
             {
               attachments: [{
                 color: '${{ job.status }}' === 'success' ? 'good' : '${{ job.status }}' === 'failure' ? 'danger' : 'warning',
-                fields:
-                 title: '라이언킹 타입체크',
-                 title_link: '${{ github.event.push.html_url }}',
-                 thumb_url: '${{ github.event.push.user.avatar_url }}',
-               }]
+                fields: [
+                  {
+                    title: '레포지토리',
+                    value: `${{ github.event.repository.name }}`,
+                    short: false
+                  },
+                  {
+                    title: 'PR 제목',
+                    value: `${{ github.event.pull_request.title }}`,
+                    short: false
+                  },
+                  {
+                    title: '작성자',
+                    value: `${process.env.AS_AUTHOR}`,
+                    short: false
+                  }
+                ],
+                title: '>>> 리뷰하러 가기 >>>',
+                title_link: '${{ github.event.pull_request.html_url }}',
+                thumb_url: '${{ github.event.pull_request.user.avatar_url }}',
+              }]
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
-        if: always() # 실패 성공 여부와 상관없이 알림
+        if: always() # Pick up events even if the job fails or is canceled.
     permissions:
       contents: read
       actions: read
