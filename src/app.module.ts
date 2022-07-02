@@ -3,9 +3,8 @@ import { EjsAdapter } from '@nestjs-modules/mailer/dist/adapters/ejs.adapter';
 import { CacheModule, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import configEmail from 'config/nodemailer.email';
 import { typeORMConfig } from 'config/typeorm.config';
-
-import configEmail from '../config/nodemailer.email';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
