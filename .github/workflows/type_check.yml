@@ -18,6 +18,7 @@ jobs:
       - name: Type Check
         run: |
           yarn install
+          yarn tsc -v
           yarn tsc
 
       # 슬랙에 알림
