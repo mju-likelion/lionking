@@ -16,14 +16,17 @@ jobs:
         with:
           node-version: '16'
 
-      - name: S3 bucket
+      - name: build
         run: |
           yarn install
           yarn build
 
-      - name: Deploy
+      - name: S3 bucket
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_IAM_MANAGER_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_IAM_MANAGER_SECRET_ACCESS_KEY }}
         run: |
-          aws s3 cp --recursive --region ap-northeast-2 dist s3://liontown
+          aws s3 rm --region ap-northeast-2 s3://liontown/ --recursive
+          aws s3 cp --region ap-northeast-2 dist s3://liontown
+
+        # aws s3 cp --recursive --region ap-northeast-2 dist s3://liontown
