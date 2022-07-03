@@ -27,6 +27,6 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_IAM_MANAGER_SECRET_ACCESS_KEY }}
         run: |
           aws s3 rm --region ap-northeast-2 s3://liontown/ --recursive
-          aws s3 cp --region ap-northeast-2 dist s3://liontown
+          aws s3 cp --recursive --region ap-northeast-2 dist s3://liontown
 
         # aws s3 cp --recursive --region ap-northeast-2 dist s3://liontown
