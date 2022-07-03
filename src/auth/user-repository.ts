@@ -35,4 +35,21 @@ export class UserRepository extends Repository<Users> {
       }
     }
   }
+
+  async updatePassword(password: string, email: string): Promise<void> {
+    const salt = await bcrypt.genSalt();
+    const hashedPassword = await bcrypt.hash(password, salt);
+    const userData = await this.findOne({ email });
+    userData.password = hashedPassword;
+    try {
+      await this.save(userData);
+    } catch (error) {
+      throw new HttpException(
+        {
+          data: { error: '의도치 않은 에러가 발생하였습니다.' },
+        },
+        500,
+      );
+    }
+  }
 }

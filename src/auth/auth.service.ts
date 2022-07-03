@@ -10,7 +10,7 @@ import { EmailService } from 'src/email/email.service';
 import { AuthCredentialsDto } from './dto/auth-credential.dto';
 import { EmailSendDto } from './dto/email-send.dto';
 import { EmailVerifyDto } from './dto/email-verify.dto';
-import { ResetPasswordDto } from './dto/reset-password.dto';
+import { ResetPasswordSendDto } from './dto/reset-password-send.dto';
 import { SignInResponseDto } from './dto/sign-in-response.dto';
 import { SignInDto } from './dto/sign-in.dto';
 import { UserRepository } from './user-repository';
@@ -76,8 +76,8 @@ export class AuthService {
     );
   }
 
-  async resetPassword(resetPasswordDto: ResetPasswordDto): Promise<ResponseDto> {
-    const { email, name } = resetPasswordDto;
+  async resetPasswordSend(resetPasswordSendDto: ResetPasswordSendDto): Promise<ResponseDto> {
+    const { email, name } = resetPasswordSendDto;
     const user = await this.userRepository.findOne({ email });
     if (name === user?.name) {
       const token = times(6, () => random(35).toString(36)).join('');
@@ -94,5 +94,11 @@ export class AuthService {
       },
       409,
     );
+  }
+
+  async resetPassword(password: string, token: string): Promise<ResponseDto> {
+    const email = await this.chcheManager.get<string>(token);
+    await this.userRepository.updatePassword(password, email);
+    return new ResponseDto('비밀번호를 변경하였습니다');
   }
 }

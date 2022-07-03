@@ -1,4 +1,4 @@
-import { Body, Controller, Post, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Param, Post, ValidationPipe } from '@nestjs/common';
 import { ApiBody, ApiCreatedResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { EmailService } from 'src/email/email.service';
 
@@ -6,7 +6,7 @@ import { AuthService } from './auth.service';
 import { AuthCredentialsDto } from './dto/auth-credential.dto';
 import { EmailSendDto } from './dto/email-send.dto';
 import { EmailVerifyDto } from './dto/email-verify.dto';
-import { ResetPasswordDto } from './dto/reset-password.dto';
+import { ResetPasswordSendDto } from './dto/reset-password-send.dto';
 import { ResponseDto } from './dto/response.dto';
 import { SignInResponseDto } from './dto/sign-in-response.dto';
 import { SignInDto } from './dto/sign-in.dto';
@@ -40,9 +40,14 @@ export class AuthController {
   }
 
   @Post('/reset-password')
-  async resetPassword(
-    @Body(ValidationPipe) resetPasswordDto: ResetPasswordDto,
+  async resetPasswordSend(
+    @Body(ValidationPipe) resetPasswordSendDto: ResetPasswordSendDto,
   ): Promise<ResponseDto> {
-    return this.authService.resetPassword(resetPasswordDto);
+    return this.authService.resetPasswordSend(resetPasswordSendDto);
+  }
+
+  @Post('/reset-password/:token')
+  async resetPassword(@Param('token') token: string, @Body('password') password: string) {
+    return this.authService.resetPassword(password, token);
   }
 }
