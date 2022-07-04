@@ -30,11 +30,15 @@ jobs:
           aws s3 cp --recursive --region ap-northeast-2 dist s3://liontown
 
       - name: CodeDeploy
-        run: aws deploy create-deployment --application-name study-app-codedeploy-server --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name dev --s3-location bucket=study-codedeploy,bundleType=zip,key=server/build.zip
+        run: aws deploy create-deploymen
+          --application-name liontown
+          --deployment-config-name CodeDeployDefault.OneAtATime
+          --deployment-group-name liontown_group
+          --s3-location bucket=liontown,bundleType=zip,key=dist/build.zip
 
         # run: aws deploy create-deployment
         #   --application-name liontown
         #   --deployment-config-name CodeDeployDefault.AllAtOnce
         #   --deployment-group-name liontown_group
         #   --s3-location bucket=liontown,key=dist/build-fe.zip,bundleType=zip
-        #  --s3-location bucket=liontown,key=dist/**build-fe.zip**,bundleType=zip
+        # --s3-location bucket=liontown,key=dist/**build-fe.zip**,bundleType=zip
