@@ -101,4 +101,9 @@ export class AuthService {
     await this.userRepository.updatePassword(password, email);
     return new ResponseDto('비밀번호를 변경하였습니다');
   }
+
+  async delPassword(userId: number): Promise<ResponseDto> {
+    await this.userRepository.delete(userId);
+    return new ResponseDto('계정삭제를 완료하였습니다.');
+  }
 }
