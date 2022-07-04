@@ -30,7 +30,7 @@ jobs:
           aws s3 cp --recursive --region ap-northeast-2 dist s3://liontown
 
       - name: CodeDeploy
-        run: aws deploy create-deploymen
+        run: aws deploy create-deployment
           --application-name liontown
           --deployment-config-name CodeDeployDefault.OneAtATime
           --deployment-group-name liontown_group
