@@ -23,7 +23,7 @@ jobs:
 
       # --------------
       - name: Make Zip File
-        run: zip -qq -r ./$GITHUB_SHA.zip .
+        run: zip -qq -r ./liontown.zip .
         shell: bash
 
       - name: Configure AWS credentials
@@ -34,14 +34,14 @@ jobs:
           aws-region: ap-northeast-2
 
       - name: Upload to S3
-        run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.zip s3://liontown/$GITHUB_SHA.zip
+        run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.zip s3://liontown/liontown.zip
 
       - name: Code Deploy
         run: aws deploy create-deployment
           --application-name liontown
           --deployment-config-name CodeDeployDefault.OneAtATime
           --deployment-group-name liontown_group
-          --s3-location bucket=liontown,bundleType=zip,key=liontown/$GITHUB_SHA.zip
+          --s3-location bucket=liontown,bundleType=zip,key=liontown/liontown.zip
 
       # --------------
       # - name: S3 bucket
