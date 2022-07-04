@@ -1,9 +1,9 @@
-version: 0.0
+version: 0.0 # CodeDeploy 버전
 os: linux
 
 files:
-  - source: /
-    destination: /home/ubuntu/server
+  - source: / # CodeDeploy에서 전달해 준 파일 중 destination으로 이동시킬 대상을 루트로 지정(전체파일)
+    destination: /home/ubuntu/server # source에서 지정된 파일을 받을 위치, 이후 jar를 실행하는 등은 destination에서 옮긴 파일들로 진행
 permissions:
   - object: /home/ubuntu/server
     owner: ubuntu
