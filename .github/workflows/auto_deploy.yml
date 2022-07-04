@@ -29,4 +29,14 @@ jobs:
           aws s3 rm --region ap-northeast-2 s3://liontown/ --recursive
           aws s3 cp --recursive --region ap-northeast-2 dist s3://liontown
 
-        # aws s3 cp --recursive --region ap-northeast-2 dist s3://liontown
+      - name: CodeDeploy
+
+        run: |
+          yarn start
+
+        run: aws deploy create-deployment
+          --application-name liontown
+          --deployment-config-name CodeDeployDefault.AllAtOnce
+          --deployment-group-name liontown_group
+          --s3-location bucket=liontown,key=dist/build-fe.zip,bundleType=zip
+        #  --s3-location bucket=liontown,key=dist/**build-fe.zip**,bundleType=zip
