@@ -30,10 +30,6 @@ jobs:
           aws s3 cp --recursive --region ap-northeast-2 dist s3://liontown
 
       - name: CodeDeploy
-
-        run: |
-          yarn start
-
         run: aws deploy create-deployment
           --application-name liontown
           --deployment-config-name CodeDeployDefault.AllAtOnce
