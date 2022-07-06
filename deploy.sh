@@ -5,6 +5,11 @@ PROJECT_NAME=liontown
 cd REPOSITORY1
 git clone https://github.com/mju-likelion/lionking.git
 
+
+# zip 파일 압축 풀기
+# 실행
+# nginx
+
 # echo "> 현재 구동중인 애플리케이션 pid 확인"
 # CURRENT_PID=$(pgrep -fl $PROJECT_NAME | grep java | awk '{print $1}')
 
