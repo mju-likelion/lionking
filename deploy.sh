@@ -1,24 +1,26 @@
-#!/usr/bin/env bash
+REPOSITORY1=/home/ec2-user
+REPOSITORY=/home/ec2-user/liontown
+PROJECT_NAME=liontown
 
-REPOSITORY=/home/ubuntu/server
-cd $REPOSITORY
+cd REPOSITORY1
+git clone https://github.com/mju-likelion/lionking.git
 
-APP_NAME=study-app
-JAR_NAME=$(ls $REPOSITORY/build/libs/ | grep '.jar' | tail -n 1)
-JAR_PATH=$REPOSITORY/build/libs/$JAR_NAME
+# echo "> 현재 구동중인 애플리케이션 pid 확인"
+# CURRENT_PID=$(pgrep -fl $PROJECT_NAME | grep java | awk '{print $1}')
 
-CURRENT_PID=$(pgrep -f $APP_NAME)
+# if [ -z $CURRENT_PID ]; then
+#     echo "> 현재 구동중인 애플리케이션이 없으므로 종료하지 않습니다."
+# else
+#     echo "> kill -15 $CURRENT_PID"
+#     kill -15 $CURRENT_PID
+#     sleep 5
+# fi
 
-if [ -z "$CURRENT_PID" ]
-then
-  echo "> 종료할 것 없음." >> /home/ubuntu/deploy.log
-else
-  echo "> sudo kill -15 $CURRENT_PID" >> /home/ubuntu/deploy.log
-  kill -15 "$CURRENT_PID" >> /home/ubuntu/deploy.log 2>&1
-  sleep 5
-fi
+# echo "> 새 어플리케이션 배포"
+# JAR_NAME=$(ls -tr $REPOSITORY/*.jar | tail -n 1)
 
-echo "> $JAR_PATH 배포"
-nohup java -jar -Dspring.config.location=classpath:/,file:///home/ubuntu/study-app-env/application-prod.properties "$JAR_PATH" >> /home/ubuntu/deploy.log 2>&1 &
+# echo "> $JAR_NAME에 실행권한 추가"
+# chmod +x $JAR_NAME
 
-echo "[$(date)] server deploy" >> /home/ubuntu/deploy.log
+# echo "> $JAR_NAME 실행"
+# nohup java -jar $JAR_NAME > $REPOSITORY1/nohup.out 2>&1 &
