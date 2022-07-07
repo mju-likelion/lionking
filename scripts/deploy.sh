@@ -3,7 +3,7 @@ REPOSITORY=/home/ec2-user/liontown
 PROJECT_NAME=liontown
 
 cd REPOSITORY1
-git clone https://github.com/mju-likelion/lionking.git
+mkdir test
 
 
 # zip 파일 압축 풀기
