@@ -33,11 +33,11 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_IAM_MANAGER_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-2
 
+          # aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.zip s3://liontown/$GITHUB_SHA.zip
       - name: Upload to S3
         run: |
-          aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.zip s3://liontown/$GITHUB_SHA.zip
-        # aws s3 rm --region ap-northeast-2 s3://liontown/ --recursive
-        # aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.zip s3://liontown/liontown/$GITHUB_SHA.zip
+          aws s3 rm --region ap-northeast-2 s3://liontown/ --recursive
+          aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.zip s3://liontown/liontown/$GITHUB_SHA.zip
 
       - name: Code Deploy
         run: aws deploy create-deployment
