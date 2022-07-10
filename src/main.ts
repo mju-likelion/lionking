@@ -10,11 +10,12 @@ async function bootstrap() {
     .setTitle('lionking API DOCS')
     .setDescription('lionTown API문서')
     .setVersion('0.0.1')
-    .addBearerAuth({ type: 'http', scheme: 'bearer', bearerFormat: 'Token' }, 'accessToken')
+    .addBearerAuth({ type: 'http', scheme: 'bearer', bearerFormat: 'Token' }, 'access-token')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
+  app.enableCors();
 
   await app.listen(3000);
 }
