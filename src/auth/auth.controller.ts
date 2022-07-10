@@ -151,8 +151,8 @@ export class AuthController {
     },
   })
   @Post('/sign-drop')
-  @UseGuards(AuthGuard())
-  @ApiBearerAuth('token')
+  @UseGuards(AuthGuard('jwt'))
+  @ApiBearerAuth()
   async signDrop(@GetUserId() userId: number) {
     return this.authService.delPassword(userId);
   }

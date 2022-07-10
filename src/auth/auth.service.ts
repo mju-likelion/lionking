@@ -38,10 +38,10 @@ export class AuthService {
   }
 
   async emailVerify(emailVerifyDto: EmailVerifyDto): Promise<ResponseDto> {
-    const userToken = await this.chcheManager.get(emailVerifyDto.email);
+    const userToken = await this.chcheManager.get(emailVerifyDto.token);
 
-    if (userToken === emailVerifyDto.token) {
-      await this.chcheManager.del(emailVerifyDto.email);
+    if (userToken === emailVerifyDto.email) {
+      await this.chcheManager.del(emailVerifyDto.token);
       return new ResponseDto('인증이 완료되었습니다.');
     }
 
