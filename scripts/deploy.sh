@@ -2,13 +2,10 @@ REPOSITORY1=/home/ec2-user
 REPOSITORY=/home/ec2-user/liontown
 PROJECT_NAME=liontown
 
-cd REPOSITORY1
-mkdir test
-
-
-# zip 파일 압축 풀기 -> deploy가 해주는 거 같고 ,,,
 # 실행
-# yarn start
+cd REPOSITORY
+yarn start
+
 # nginx 연결
 
 # echo "> 현재 구동중인 애플리케이션 pid 확인"
