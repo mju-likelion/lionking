@@ -4,6 +4,7 @@ PROJECT_NAME=liontown
 
 # 실행
 cd REPOSITORY
+yarn install
 yarn start
 
 # nginx 연결
