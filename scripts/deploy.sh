@@ -4,8 +4,8 @@ PROJECT_NAME=liontown
 
 # 실행
 cd /home/ec2-user/liontown
-yarn install
-yarn start
+npm install
+npm start
 
 # nginx
 # pm2 
