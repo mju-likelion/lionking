@@ -3,7 +3,7 @@ REPOSITORY=/home/ec2-user/liontown
 PROJECT_NAME=liontown
 
 # 실행
-cd liontown
+cd /home/ec2-user/liontown
 yarn install
 yarn start
 
