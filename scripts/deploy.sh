@@ -3,9 +3,9 @@ REPOSITORY=/home/ec2-user/liontown
 PROJECT_NAME=liontown
 
 # 실행
-cd /home/ec2-user/liontown
+cd liontown
 yarn install
-yarn nest start
+yarn start
 
 # nginx
 # pm2 
