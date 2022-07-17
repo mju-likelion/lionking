@@ -28,7 +28,7 @@ export class AuthService {
   async sendEmail(emailSendDto: EmailSendDto): Promise<ResponseDto> {
     const token = times(6, () => random(35).toString(36)).join('');
 
-    await this.chcheManager.set<string>(token, emailSendDto.email, { ttl: 60 * 60 * 24 });
+    await this.chcheManager.set<string>(emailSendDto.email, token, { ttl: 60 * 60 * 24 });
     const emailVerify = new EmailVerifyDto(emailSendDto.email, token);
 
     this.emailService.emailSend(emailVerify, '로그인 시도', 'signin.ejs');
@@ -81,7 +81,7 @@ export class AuthService {
     const user = await this.userRepository.findOne({ email });
     if (name === user?.name) {
       const token = times(6, () => random(35).toString(36)).join('');
-      await this.chcheManager.set<string>(token, email, { ttl: 60 * 60 * 24 });
+      await this.chcheManager.set<string>(email, token, { ttl: 60 * 60 * 24 });
 
       const sendEmail = new EmailVerifyDto(email, token);
       this.emailService.emailSend(sendEmail, '비밀번호 변경', 'resetpassword.ejs');
@@ -97,7 +97,22 @@ export class AuthService {
   }
 
   async resetPassword(password: string, token: string): Promise<ResponseDto> {
-    const email = await this.chcheManager.get<string>(token);
+    const usersEmail = await this.chcheManager.store.keys();
+    const userEmail = await usersEmail.forEach(async (email: string): Promise<string> => {
+      // console.log(email === token);
+      // console.log(await this.chcheManager.get<string>(email));
+      if ((await this.chcheManager.get<string>(email)) === token) {
+        // console.log('맞음');
+        return email;
+      }
+      throw new HttpException(
+        {
+          data: { error: '의도치 않은 에러가 발생하였습니다.' },
+        },
+        500,
+      );
+    });
+    const email = await this.chcheManager.get<string>(userEmail);
     await this.userRepository.updatePassword(password, email);
     return new ResponseDto('비밀번호를 변경하였습니다');
   }
