@@ -2,9 +2,11 @@
 
 멋쟁이사자처럼 명지대(자연) lionTown server
 
-## Requirements
-
 ## How to start development server
+
+```shell
+yarn start:dev
+```
 
 ## Commit conventions
 
@@ -16,18 +18,30 @@
 - docs : 주석 추가삭제, readme 변경 등
 
 ## .env
+
 ```
 EMAIL_AUTH_EMAIL=                 // gmail
 EMAIL_AUTH_PASSWORD=              // gmail 패스워드
 EMAIL_HOST=smtp.gmail.com         // host방식
 EMAIL_FROM_USER_NAME=             // 메일 전송 이름 
 SECRET_KEY=                       // JWT SecretKey
-DB_PASSWORD=                      // MySql Password 
+DB_NAME=                          // MySQL DB 이름
+DB_PASSWORD=                      // MySQL Password 
 ```
 
 ## Pre-installation
+
 DB, Cache 선행 설치가 필요합니다
+
 ```
-MySql
+MySQL
 Redis
+```
+
+[Docker Compose](https://docs.docker.com/compose/)를 이용하여 쉽게 실행할 수 있습니다.
+
+실행 전 .env파일이 설정되어 있어야 합니다.
+
+```shell
+docker-compose up -d
 ```
