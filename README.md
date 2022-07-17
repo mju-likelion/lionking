@@ -22,7 +22,8 @@ EMAIL_AUTH_PASSWORD=              // gmail 패스워드
 EMAIL_HOST=smtp.gmail.com         // host방식
 EMAIL_FROM_USER_NAME=             // 메일 전송 이름 
 SECRET_KEY=                       // JWT SecretKey
-DB_PASSWORD=                      // MySql Password 
+DB_NAME=                          // MySQL DB 이름
+DB_PASSWORD=                      // MySQL Password 
 ```
 
 ## Pre-installation
