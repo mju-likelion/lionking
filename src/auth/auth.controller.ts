@@ -1,4 +1,5 @@
-import { Body, Controller, Post, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Param, Post, UseGuards, ValidationPipe } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { ApiBody, ApiCreatedResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { EmailService } from 'src/email/email.service';
 
@@ -6,7 +7,11 @@ import { AuthService } from './auth.service';
 import { AuthCredentialsDto } from './dto/auth-credential.dto';
 import { EmailSendDto } from './dto/email-send.dto';
 import { EmailVerifyDto } from './dto/email-verify.dto';
+import { ResetPasswordSendDto } from './dto/reset-password-send.dto';
 import { ResponseDto } from './dto/response.dto';
+import { SignInResponseDto } from './dto/sign-in-response.dto';
+import { SignInDto } from './dto/sign-in.dto';
+import { GetUserId } from './get-user.decorator';
 
 @ApiTags('Auth')
 @ApiResponse({ type: ResponseDto })
@@ -29,5 +34,28 @@ export class AuthController {
   @Post('/sign-up')
   async signUp(@Body(ValidationPipe) authCredentialDto: AuthCredentialsDto): Promise<ResponseDto> {
     return this.authService.signUp(authCredentialDto);
+  }
+
+  @Post('/sign-in')
+  async signIn(@Body(ValidationPipe) signInDto: SignInDto): Promise<SignInResponseDto> {
+    return this.authService.signIn(signInDto);
+  }
+
+  @Post('/reset-password')
+  async resetPasswordSend(
+    @Body(ValidationPipe) resetPasswordSendDto: ResetPasswordSendDto,
+  ): Promise<ResponseDto> {
+    return this.authService.resetPasswordSend(resetPasswordSendDto);
+  }
+
+  @Post('/reset-password/:token')
+  async resetPassword(@Param('token') token: string, @Body('password') password: string) {
+    return this.authService.resetPassword(password, token);
+  }
+
+  @Post('/sign-drop')
+  @UseGuards(AuthGuard())
+  async signDrop(@GetUserId() userId: number) {
+    return this.authService.delPassword(userId);
   }
 }

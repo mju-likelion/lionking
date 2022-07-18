@@ -15,14 +15,12 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     super({
       secretOrKey: process.env.SECRET_KEY,
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      issuer: 'likelion',
     });
   }
 
   async validate(payload) {
     const { id } = payload;
     const users: Users = await this.userRepository.findOne({ id });
-
     if (!users) {
       throw new UnauthorizedException();
     }
