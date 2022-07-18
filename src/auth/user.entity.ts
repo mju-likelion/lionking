@@ -12,7 +12,7 @@ import {
 } from 'typeorm';
 
 import { Memos } from '../memo/memos.entity';
-import { UserLounges } from '../user-lounge/user-lounge.entity';
+import { UserLounges } from '../room/room.entity';
 
 @Entity()
 @Unique(['email'])
