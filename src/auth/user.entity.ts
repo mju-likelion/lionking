@@ -50,4 +50,8 @@ export class Users extends BaseEntity {
 
   @OneToOne(() => UserLounges, UserLounge => UserLounge.user)
   user: UserLounges[];
+
+  @ApiProperty()
+  @Column({ nullable: true })
+  password1: string;
 }

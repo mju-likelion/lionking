@@ -1,10 +1,15 @@
+import { ApiProperty } from '@nestjs/swagger';
+import { IsJWT } from 'class-validator';
+
 import { ResponseDto } from './response.dto';
 
 export class SignInResponseDto extends ResponseDto {
-  constructor(message: string, token: string) {
+  constructor(message: string, accessToken: string) {
     super(message);
-    this.token = token;
+    this.accessToken = accessToken;
   }
 
-  token: string;
+  @ApiProperty()
+  @IsJWT()
+  accessToken: string;
 }
