@@ -10,7 +10,7 @@ import {
 } from 'typeorm';
 
 @Entity()
-export class UserLounges {
+export class Room {
   @PrimaryGeneratedColumn()
   id: number;
 

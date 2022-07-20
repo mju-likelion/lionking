@@ -12,7 +12,7 @@ import {
 } from 'typeorm';
 
 import { Memos } from '../memo/memos.entity';
-import { UserLounges } from '../room/room.entity';
+import { Room } from '../room/room.entity';
 
 @Entity()
 @Unique(['email'])
@@ -48,8 +48,8 @@ export class Users extends BaseEntity {
   @OneToMany(() => Memos, memo => memo.user)
   memo: Memos[];
 
-  @OneToOne(() => UserLounges, UserLounge => UserLounge.user)
-  user: UserLounges[];
+  @OneToOne(() => Room, room => room.user)
+  user: Room[];
 
   @ApiProperty()
   @Column({ nullable: true })
