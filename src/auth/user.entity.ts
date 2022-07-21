@@ -5,7 +5,6 @@ import {
   CreateDateColumn,
   Entity,
   OneToMany,
-  OneToOne,
   PrimaryGeneratedColumn,
   Unique,
   UpdateDateColumn,
@@ -48,8 +47,8 @@ export class User extends BaseEntity {
   @OneToMany(() => Memos, memo => memo.user)
   memo: Memos[];
 
-  @OneToOne(() => Room, room => room.user)
-  user: Room[];
+  @OneToMany(() => Room, room => room.user)
+  rooms: Room[];
 
   @ApiProperty()
   @Column({ nullable: true })

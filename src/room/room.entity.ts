@@ -1,7 +1,7 @@
 import { User } from 'src/auth/user.entity';
 import { Lounge } from 'src/lounge/lounges.entity';
 import {
-  Column,
+  BaseEntity,
   CreateDateColumn,
   Entity,
   ManyToOne,
@@ -10,12 +10,9 @@ import {
 } from 'typeorm';
 
 @Entity()
-export class Room {
+export class Room extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
-
-  @Column({ length: 20, nullable: true })
-  loungeName: string;
 
   @ManyToOne(() => User, user => user.rooms)
   user: User;
