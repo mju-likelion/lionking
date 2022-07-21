@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Memo } from 'src/memo/memo.entity';
 import {
   BaseEntity,
   Column,
@@ -10,7 +11,6 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-import { Memos } from '../memo/memos.entity';
 import { Room } from '../room/room.entity';
 
 @Entity()
@@ -44,8 +44,8 @@ export class User extends BaseEntity {
   @UpdateDateColumn()
   updateAt: Date;
 
-  @OneToMany(() => Memos, memo => memo.user)
-  memo: Memos[];
+  @OneToMany(() => Memo, memo => memo.user)
+  memo: Memo[];
 
   @OneToMany(() => Room, room => room.user)
   rooms: Room[];

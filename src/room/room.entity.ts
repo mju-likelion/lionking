@@ -1,10 +1,12 @@
 import { User } from 'src/auth/user.entity';
 import { Lounge } from 'src/lounge/lounges.entity';
+import { Memo } from 'src/memo/memo.entity';
 import {
   BaseEntity,
   CreateDateColumn,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -19,6 +21,9 @@ export class Room extends BaseEntity {
 
   @ManyToOne(() => Lounge, lounge => lounge.rooms)
   lounge: Lounge;
+
+  @OneToMany(() => Memo, memo => memo.room)
+  memos: Memo[];
 
   @CreateDateColumn()
   createAt: Date;

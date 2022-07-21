@@ -1,3 +1,4 @@
+import { Room } from 'src/room/room.entity';
 import {
   BaseEntity,
   Column,
@@ -11,7 +12,7 @@ import {
 import { User } from '../auth/user.entity';
 
 @Entity()
-export class Memos extends BaseEntity {
+export class Memo extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -21,12 +22,15 @@ export class Memos extends BaseEntity {
   @Column({ length: 1000, nullable: true })
   content: string;
 
+  @ManyToOne(() => User, user => user.id)
+  user: User;
+
+  @ManyToOne(() => Room, room => room.memos)
+  room: Room;
+
   @CreateDateColumn()
   createdAt: Date;
 
   @UpdateDateColumn()
   updatedAt: Date;
-
-  @ManyToOne(() => User, user => user.id)
-  user: User;
 }
