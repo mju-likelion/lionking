@@ -3,10 +3,10 @@ import * as bcrypt from 'bcryptjs';
 import { EntityRepository, Repository } from 'typeorm';
 
 import { AuthCredentialsDto } from './dto/auth-credential.dto';
-import { Users } from './user.entity';
+import { User } from './user.entity';
 
-@EntityRepository(Users)
-export class UserRepository extends Repository<Users> {
+@EntityRepository(User)
+export class UserRepository extends Repository<User> {
   async createUser(authCredentialDto: AuthCredentialsDto): Promise<void> {
     const { name, password, phone, email } = authCredentialDto;
 

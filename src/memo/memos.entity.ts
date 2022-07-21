@@ -8,7 +8,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-import { Users } from '../auth/user.entity';
+import { User } from '../auth/user.entity';
 
 @Entity()
 export class Memos extends BaseEntity {
@@ -27,6 +27,6 @@ export class Memos extends BaseEntity {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @ManyToOne(() => Users, user => user.id)
-  user: Users;
+  @ManyToOne(() => User, user => user.id)
+  user: User;
 }

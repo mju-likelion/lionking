@@ -1,5 +1,5 @@
-import { Users } from 'src/auth/user.entity';
-import { Lounges } from 'src/lounge/lounges.entity';
+import { User } from 'src/auth/user.entity';
+import { Lounge } from 'src/lounge/lounges.entity';
 import {
   Column,
   CreateDateColumn,
@@ -17,15 +17,15 @@ export class Room {
   @Column({ length: 20, nullable: true })
   loungeName: string;
 
+  @ManyToOne(() => User, user => user.rooms)
+  user: User;
+
+  @ManyToOne(() => Lounge, lounge => lounge.rooms)
+  lounge: Lounge;
+
   @CreateDateColumn()
   createAt: Date;
 
   @UpdateDateColumn()
   updateAt: Date;
-
-  @ManyToOne(() => Users, user => user.id)
-  user: Users;
-
-  @ManyToOne(() => Lounges, lounge => lounge.id)
-  lounge: Lounges;
 }

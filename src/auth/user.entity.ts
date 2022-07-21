@@ -16,7 +16,7 @@ import { Room } from '../room/room.entity';
 
 @Entity()
 @Unique(['email'])
-export class Users extends BaseEntity {
+export class User extends BaseEntity {
   @ApiProperty()
   @PrimaryGeneratedColumn()
   id: number;
