@@ -3,6 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcryptjs';
 import { Cache } from 'cache-manager';
+import { Response } from 'express';
 import { random, times } from 'lodash';
 import { ResponseDto } from 'src/auth/dto/response.dto';
 import { EmailService } from 'src/email/email.service';
@@ -38,10 +39,10 @@ export class AuthService {
   }
 
   async emailVerify(emailVerifyDto: EmailVerifyDto): Promise<ResponseDto> {
-    const userToken = await this.chcheManager.get(emailVerifyDto.token);
+    const userToken = await this.chcheManager.get(emailVerifyDto.email);
 
-    if (userToken === emailVerifyDto.email) {
-      await this.chcheManager.del(emailVerifyDto.token);
+    if (userToken === emailVerifyDto.token) {
+      await this.chcheManager.del(emailVerifyDto.email);
       return new ResponseDto('인증이 완료되었습니다.');
     }
 
@@ -58,13 +59,18 @@ export class AuthService {
     return new ResponseDto('회원가입이 완료되었습니다.');
   }
 
-  async signIn(signInDto: SignInDto): Promise<SignInResponseDto> {
+  async signIn(signInDto: SignInDto, res: Response): Promise<SignInResponseDto> {
     const { email, password } = signInDto;
     const user = await this.userRepository.findOne({ email });
 
     if (user && (await bcrypt.compare(password, user.password))) {
       const payload = { id: user.id };
       const accessToken = this.jwtService.sign(payload);
+      res.cookie('jwt', accessToken, {
+        expires: new Date(new Date().getTime() + 30 * 1000 * 1000),
+        sameSite: 'strict',
+        httpOnly: true,
+      });
       return new SignInResponseDto('로그인에 성공하였습니다.', accessToken);
     }
 

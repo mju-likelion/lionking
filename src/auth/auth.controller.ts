@@ -1,4 +1,4 @@
-import { Body, Controller, Param, Post, UseGuards, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Param, Post, Res, UseGuards, ValidationPipe } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import {
   ApiBearerAuth,
@@ -11,6 +11,7 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
+import { Response } from 'express';
 import { EmailService } from 'src/email/email.service';
 
 import { AuthService } from './auth.service';
@@ -97,8 +98,11 @@ export class AuthController {
     },
   })
   @Post('/sign-in')
-  async signIn(@Body(ValidationPipe) signInDto: SignInDto): Promise<SignInResponseDto> {
-    return this.authService.signIn(signInDto);
+  async signIn(
+    @Res({ passthrough: true }) res: Response,
+    @Body(ValidationPipe) signInDto: SignInDto,
+  ): Promise<SignInResponseDto> {
+    return this.authService.signIn(signInDto, res);
   }
 
   @ApiOperation({
