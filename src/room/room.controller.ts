@@ -4,7 +4,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { RoomService } from './room.service';
 
 @UseGuards(AuthGuard())
-@Controller('api/user-lounges')
+@Controller('api/room')
 export class RoomController {
   constructor(private readonly userLoungeService: RoomService) {}
 
