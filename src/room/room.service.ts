@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
-export class UserLoungeService {
+export class RoomService {
   async testUserLounge() {
     return 'testUserLounge';
   }

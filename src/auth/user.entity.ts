@@ -1,22 +1,21 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Memo } from 'src/memo/memo.entity';
 import {
   BaseEntity,
   Column,
   CreateDateColumn,
   Entity,
   OneToMany,
-  OneToOne,
   PrimaryGeneratedColumn,
   Unique,
   UpdateDateColumn,
 } from 'typeorm';
 
-import { Memos } from '../memo/memos.entity';
-import { UserLounges } from '../user-lounge/user-lounge.entity';
+import { Room } from '../room/room.entity';
 
 @Entity()
 @Unique(['email'])
-export class Users extends BaseEntity {
+export class User extends BaseEntity {
   @ApiProperty()
   @PrimaryGeneratedColumn()
   id: number;
@@ -45,11 +44,11 @@ export class Users extends BaseEntity {
   @UpdateDateColumn()
   updateAt: Date;
 
-  @OneToMany(() => Memos, memo => memo.user)
-  memo: Memos[];
+  @OneToMany(() => Memo, memo => memo.user)
+  memo: Memo[];
 
-  @OneToOne(() => UserLounges, UserLounge => UserLounge.user)
-  user: UserLounges[];
+  @OneToMany(() => Room, room => room.user)
+  rooms: Room[];
 
   @ApiProperty()
   @Column({ nullable: true })

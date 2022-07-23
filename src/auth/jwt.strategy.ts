@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 
 import { UserRepository } from './user-repository';
-import { Users } from './user.entity';
+import { User } from './user.entity';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -20,7 +20,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
   async validate(payload) {
     const { id } = payload;
-    const users: Users = await this.userRepository.findOne({ id });
+    const users: User = await this.userRepository.findOne({ id });
     if (!users) {
       throw new UnauthorizedException('로그인을 해주세요');
     }

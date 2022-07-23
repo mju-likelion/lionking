@@ -12,7 +12,7 @@ import { AuthModule } from './auth/auth.module';
 import { EmailModule } from './email/email.module';
 import { LoungeModule } from './lounge/lounge.module';
 import { MemoModule } from './memo/memo.module';
-import { UserLoungeModule } from './user-lounge/user-lounge.module';
+import { RoomModule } from './room/room.module';
 
 @Module({
   // forRoot()에서 DB 접근 정보를 주지 않으면, 루트 경로의 ormconfig.json의 파일에서 설정 값을 자동으로 찾아 사용한다.
@@ -41,7 +41,7 @@ import { UserLoungeModule } from './user-lounge/user-lounge.module';
     CacheModule.register(),
     LoungeModule,
     MemoModule,
-    UserLoungeModule,
+    RoomModule,
   ],
   controllers: [AppController],
   providers: [AppService],
