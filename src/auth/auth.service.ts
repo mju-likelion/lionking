@@ -62,14 +62,17 @@ export class AuthService {
 
   async signIn(signInDto: SignInDto, res: Response): Promise<SignInResponseDto> {
     const { email, password } = signInDto;
-    const user = await this.userRepository.findOne({ email });
+    const user = await this.userRepository.findOne({
+      select: ['id', 'password'],
+      where: { email },
+    });
 
     if (user && (await bcrypt.compare(password, user.password))) {
       const payload = { id: user.id };
       const accessToken = this.jwtService.sign(payload);
       try {
         res.cookie('jwt', accessToken, {
-          expires: add(new Date(), { hours: 3 }),
+          expires: add(new Date(), { hours: 12 }),
           httpOnly: true,
           sameSite: 'strict',
         });
