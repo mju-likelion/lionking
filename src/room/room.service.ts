@@ -14,7 +14,8 @@ export class RoomService {
     return 'testUserLounge';
   }
 
-  async getRoom(id: number): Promise<Room> {
-    return this.roomRepository.findOne(id, { relations: ['user', 'memos'] });
+  async getRoom(id: number): Promise<{ data: any }> {
+    const room = await this.roomRepository.findOne(id, { relations: ['user', 'memos'] });
+    return { data: room };
   }
 }
