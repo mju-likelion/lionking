@@ -1,13 +1,15 @@
+import { Room } from 'src/room/room.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
-export class Lounges {
+export class Lounge {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -16,6 +18,9 @@ export class Lounges {
 
   @Column({ default: 100, nullable: true })
   limit: number;
+
+  @OneToMany(() => Room, room => room.user)
+  rooms: Room[];
 
   @CreateDateColumn()
   createAt: Date;
