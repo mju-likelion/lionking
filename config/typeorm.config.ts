@@ -6,7 +6,7 @@ import { Room } from 'src/room/room.entity';
 
 export const typeORMConfig: TypeOrmModuleOptions = {
   type: 'mysql', // Database 설정
-  host: 'localhost',
+  host: process.env.LAUNCH_ENV === 'docker-compose' ? 'mysql' : 'localhost',
   port: 3306,
   username: 'root',
   password: process.env.DB_PASSWORD,
