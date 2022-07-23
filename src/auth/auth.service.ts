@@ -3,6 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcryptjs';
 import { Cache } from 'cache-manager';
+import { add } from 'date-fns';
 import { Response } from 'express';
 import { random, times } from 'lodash';
 import { ResponseDto } from 'src/auth/dto/response.dto';
@@ -66,11 +67,16 @@ export class AuthService {
     if (user && (await bcrypt.compare(password, user.password))) {
       const payload = { id: user.id };
       const accessToken = this.jwtService.sign(payload);
-      res.cookie('jwt', accessToken, {
-        expires: new Date(new Date().getTime() + 30 * 1000 * 1000),
-        sameSite: 'strict',
-        httpOnly: true,
-      });
+      try {
+        res.cookie('jwt', accessToken, {
+          expires: add(new Date(), { hours: 3 }),
+          httpOnly: true,
+          sameSite: 'strict',
+        });
+      } catch (error) {
+        console.error(error);
+      }
+
       return new SignInResponseDto('로그인에 성공하였습니다.', accessToken);
     }
 
@@ -87,7 +93,7 @@ export class AuthService {
     const user = await this.userRepository.findOne({ email });
     if (name === user?.name) {
       const token = times(6, () => random(35).toString(36)).join('');
-      await this.chcheManager.set<string>(email, token, { ttl: 60 * 60 * 24 });
+      await this.chcheManager.set<string>(email, token, { ttl: 60 * 60 });
 
       const sendEmail = new EmailVerifyDto(email, token);
       this.emailService.emailSend(sendEmail, '비밀번호 변경', 'resetpassword.ejs');
@@ -105,10 +111,7 @@ export class AuthService {
   async resetPassword(password: string, token: string): Promise<ResponseDto> {
     const usersEmail = await this.chcheManager.store.keys();
     const userEmail = await usersEmail.forEach(async (email: string): Promise<string> => {
-      // console.log(email === token);
-      // console.log(await this.chcheManager.get<string>(email));
       if ((await this.chcheManager.get<string>(email)) === token) {
-        // console.log('맞음');
         return email;
       }
       throw new HttpException(
@@ -118,8 +121,8 @@ export class AuthService {
         500,
       );
     });
-    const email = await this.chcheManager.get<string>(userEmail);
-    await this.userRepository.updatePassword(password, email);
+    await this.userRepository.updatePassword(password, userEmail);
+    await this.chcheManager.del(userEmail);
     return new ResponseDto('비밀번호를 변경하였습니다');
   }
 
