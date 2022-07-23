@@ -10,10 +10,6 @@ export class RoomService {
     private readonly roomRepository: Repository<Room>,
   ) {}
 
-  async testUserLounge() {
-    return 'testUserLounge';
-  }
-
   async getRoom(id: number): Promise<{ data: any }> {
     const room = await this.roomRepository.findOne(id, { relations: ['user', 'memos'] });
     return { data: room };

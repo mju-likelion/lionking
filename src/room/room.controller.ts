@@ -9,11 +9,6 @@ import { RoomService } from './room.service';
 export class RoomController {
   constructor(private readonly roomService: RoomService) {}
 
-  @Get()
-  async testUserLounge() {
-    return this.roomService.testUserLounge();
-  }
-
   @ApiOperation({
     summary: '방 조회 API',
     description: '방의 정보를 조회합니다.',
