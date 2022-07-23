@@ -25,7 +25,7 @@ import { UserRepository } from './user-repository';
     TypeOrmModule.forFeature([UserRepository]),
     CacheModule.register({
       store: redisStore,
-      host: 'localhost',
+      host: process.env.LAUNCH_ENV === 'docker-compose' ? 'redis' : 'localhost',
       port: 6379,
     }),
   ],

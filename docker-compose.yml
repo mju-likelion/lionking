@@ -1,5 +1,31 @@
 version: "3.9"
 services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - nest
+
+  nest:
+    build: .
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mysql
+      - redis
+    environment:
+      - EMAIL_AUTH_EMAIL=${EMAIL_AUTH_EMAIL}
+      - EMAIL_AUTH_PASSWORD=${EMAIL_AUTH_PASSWORD}
+      - EMAIL_HOST=${EMAIL_HOST}
+      - EMAIL_FROM_USER_NAME=${EMAIL_FROM_USER_NAME}
+      - SECRET_KEY=${SECRET_KEY}
+      - DB_NAME=${DB_NAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - LAUNCH_ENV=docker-compose
+
   mysql:
     image: mysql:latest
     ports:
