@@ -22,7 +22,7 @@ export class Memo extends BaseEntity {
   @Column({ length: 1000, nullable: true })
   content: string;
 
-  @ManyToOne(() => User, user => user.id)
+  @ManyToOne(() => User, user => user.memos)
   user: User;
 
   @ManyToOne(() => Room, room => room.memos)

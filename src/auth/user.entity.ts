@@ -45,7 +45,7 @@ export class User extends BaseEntity {
   updateAt: Date;
 
   @OneToMany(() => Memo, memo => memo.user)
-  memo: Memo[];
+  memos: Memo[];
 
   @OneToMany(() => Room, room => room.user)
   rooms: Room[];
