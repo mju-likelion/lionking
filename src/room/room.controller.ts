@@ -1,15 +1,20 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
 import { RoomService } from './room.service';
 
-@UseGuards(AuthGuard())
-@Controller('api/room')
+@Controller('api/rooms')
 export class RoomController {
-  constructor(private readonly userLoungeService: RoomService) {}
+  constructor(private readonly roomService: RoomService) {}
 
   @Get()
   async testUserLounge() {
-    return this.userLoungeService.testUserLounge();
+    return this.roomService.testUserLounge();
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Get(':id')
+  async getRoom(@Param() params) {
+    return this.roomService.getRoom(+params.id);
   }
 }
