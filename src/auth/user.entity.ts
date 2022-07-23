@@ -49,8 +49,4 @@ export class User extends BaseEntity {
 
   @OneToMany(() => Room, room => room.user)
   rooms: Room[];
-
-  @ApiProperty()
-  @Column({ nullable: true })
-  password1: string;
 }
