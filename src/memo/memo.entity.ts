@@ -1,3 +1,4 @@
+import { Room } from 'src/room/room.entity';
 import {
   BaseEntity,
   Column,
@@ -8,10 +9,10 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-import { Users } from '../auth/user.entity';
+import { User } from '../auth/user.entity';
 
 @Entity()
-export class Memos extends BaseEntity {
+export class Memo extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -21,12 +22,15 @@ export class Memos extends BaseEntity {
   @Column({ length: 1000, nullable: true })
   content: string;
 
+  @ManyToOne(() => User, user => user.memos)
+  user: User;
+
+  @ManyToOne(() => Room, room => room.memos)
+  room: Room;
+
   @CreateDateColumn()
   createdAt: Date;
 
   @UpdateDateColumn()
   updatedAt: Date;
-
-  @ManyToOne(() => Users, user => user.id)
-  user: Users;
 }

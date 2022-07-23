@@ -12,7 +12,7 @@ export class AuthCredentialsDto {
   @IsString()
   name: string;
 
-  @ApiProperty({ description: '패스워드 (특수문자, 영문 6~10자)', example: 'a!b@c#' })
+  @ApiProperty({ description: '패스워드 (영문 6~10자)', example: 'q12345' })
   @IsString()
   @Matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,10}$/, {
     message: '패스워드 형식이 올바르지 않습니다.',

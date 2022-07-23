@@ -3,6 +3,8 @@ import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcryptjs';
 import { Cache } from 'cache-manager';
+import { add } from 'date-fns';
+import { Response } from 'express';
 import { random, times } from 'lodash';
 import { ResponseDto } from 'src/auth/dto/response.dto';
 import { EmailService } from 'src/email/email.service';
@@ -28,7 +30,7 @@ export class AuthService {
   async sendEmail(emailSendDto: EmailSendDto): Promise<ResponseDto> {
     const token = times(6, () => random(35).toString(36)).join('');
 
-    await this.chcheManager.set<string>(token, emailSendDto.email, { ttl: 60 * 60 * 24 });
+    await this.chcheManager.set<string>(emailSendDto.email, token, { ttl: 60 * 60 * 24 });
     const emailVerify = new EmailVerifyDto(emailSendDto.email, token);
 
     this.emailService.emailSend(emailVerify, '로그인 시도', 'signin.ejs');
@@ -38,10 +40,10 @@ export class AuthService {
   }
 
   async emailVerify(emailVerifyDto: EmailVerifyDto): Promise<ResponseDto> {
-    const userToken = await this.chcheManager.get(emailVerifyDto.token);
+    const userToken = await this.chcheManager.get(emailVerifyDto.email);
 
-    if (userToken === emailVerifyDto.email) {
-      await this.chcheManager.del(emailVerifyDto.token);
+    if (userToken === emailVerifyDto.token) {
+      await this.chcheManager.del(emailVerifyDto.email);
       return new ResponseDto('인증이 완료되었습니다.');
     }
 
@@ -58,13 +60,23 @@ export class AuthService {
     return new ResponseDto('회원가입이 완료되었습니다.');
   }
 
-  async signIn(signInDto: SignInDto): Promise<SignInResponseDto> {
+  async signIn(signInDto: SignInDto, res: Response): Promise<SignInResponseDto> {
     const { email, password } = signInDto;
     const user = await this.userRepository.findOne({ email });
 
     if (user && (await bcrypt.compare(password, user.password))) {
       const payload = { id: user.id };
       const accessToken = this.jwtService.sign(payload);
+      try {
+        res.cookie('jwt', accessToken, {
+          expires: add(new Date(), { hours: 3 }),
+          httpOnly: true,
+          sameSite: 'strict',
+        });
+      } catch (error) {
+        console.error(error);
+      }
+
       return new SignInResponseDto('로그인에 성공하였습니다.', accessToken);
     }
 
@@ -81,7 +93,7 @@ export class AuthService {
     const user = await this.userRepository.findOne({ email });
     if (name === user?.name) {
       const token = times(6, () => random(35).toString(36)).join('');
-      await this.chcheManager.set<string>(token, email, { ttl: 60 * 60 * 24 });
+      await this.chcheManager.set<string>(email, token, { ttl: 60 * 60 });
 
       const sendEmail = new EmailVerifyDto(email, token);
       this.emailService.emailSend(sendEmail, '비밀번호 변경', 'resetpassword.ejs');
@@ -97,8 +109,20 @@ export class AuthService {
   }
 
   async resetPassword(password: string, token: string): Promise<ResponseDto> {
-    const email = await this.chcheManager.get<string>(token);
-    await this.userRepository.updatePassword(password, email);
+    const usersEmail = await this.chcheManager.store.keys();
+    const userEmail = await usersEmail.forEach(async (email: string): Promise<string> => {
+      if ((await this.chcheManager.get<string>(email)) === token) {
+        return email;
+      }
+      throw new HttpException(
+        {
+          data: { error: '의도치 않은 에러가 발생하였습니다.' },
+        },
+        500,
+      );
+    });
+    await this.userRepository.updatePassword(password, userEmail);
+    await this.chcheManager.del(userEmail);
     return new ResponseDto('비밀번호를 변경하였습니다');
   }
 
