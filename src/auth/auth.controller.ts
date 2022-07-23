@@ -1,4 +1,13 @@
-import { Body, Controller, Param, Post, Res, UseGuards, ValidationPipe } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Param,
+  Post,
+  Res,
+  UseGuards,
+  ValidationPipe,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import {
   ApiBearerAuth,
@@ -154,7 +163,7 @@ export class AuthController {
       example: { data: { message: '계정삭제를 완료하였습니다.' } },
     },
   })
-  @Post('/sign-drop')
+  @Delete('/sign-drop')
   @UseGuards(AuthGuard('jwt'))
   @ApiBearerAuth()
   async signDrop(@GetUserId() userId: number) {
