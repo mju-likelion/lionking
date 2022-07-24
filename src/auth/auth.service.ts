@@ -74,7 +74,7 @@ export class AuthService {
         res.cookie('jwt', accessToken, {
           expires: add(new Date(), { hours: 12 }),
           httpOnly: true,
-          sameSite: 'strict',
+          // sameSite: 'strict', // 기본값 'Lax'
         });
       } catch (error) {
         console.error(error);
