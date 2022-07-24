@@ -31,7 +31,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
   async validate(payload) {
     const { id } = payload;
-    if (payload === null) {
+    if (!payload) {
       throw new UnauthorizedException('로그인을 해주세요');
     }
     const users: User = await this.userRepository.findOne({ id });
