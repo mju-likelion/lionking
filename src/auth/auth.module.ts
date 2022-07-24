@@ -18,7 +18,7 @@ import { UserRepository } from './user-repository';
     JwtModule.register({
       secret: process.env.SECRET_KEY,
       signOptions: {
-        expiresIn: 60 * 60 * 3,
+        expiresIn: 60 * 60 * 12,
       },
     }),
     EmailModule,
