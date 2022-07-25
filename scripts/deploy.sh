@@ -2,10 +2,8 @@ REPOSITORY1=/home/ec2-user
 REPOSITORY=/home/ec2-user/liontown
 PROJECT_NAME=liontown
 
-# 실행
-cd /home/ec2-user/liontown
-npm install
-npm start
-
-# nginx
-# pm2 
+ssh -i lionking-lightsail.pem ubuntu@api.liontown.city
+cd lionking
+git pull
+sudo docker compose down
+sudo docker compose up -d
