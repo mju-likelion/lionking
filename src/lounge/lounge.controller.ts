@@ -1,4 +1,4 @@
-import { Controller, Delete, Get, Post, Put, UseGuards } from '@nestjs/common';
+import { Controller, Delete, Get, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
 import { LoungeService } from './lounge.service';
@@ -28,14 +28,8 @@ export class LoungeController {
 
   // 라운지 생성
   @Post()
-  async postLounge() {
-    return this.loungeService.postLounge();
-  }
-
-  // 라운지 수정
-  @Put()
-  async putLounge() {
-    return this.loungeService.putLounge();
+  async createLounge() {
+    return this.loungeService.createLounge();
   }
 
   // 라운지 삭제
