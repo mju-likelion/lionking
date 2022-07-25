@@ -2,7 +2,8 @@ name: auto-deploy
 
 on:
   push:
-    branches: [feature/**]
+    branches: [develop, master]
+    # [feature/**]
     # types: [closed] # when PR closed
     # branches: [master]
 
