@@ -1,6 +1,8 @@
-import { Controller, Delete, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Post, UseGuards, ValidationPipe } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { ResponseDto } from 'src/auth/dto/response.dto';
 
+import { LoungeCredentialDto } from './dto/lounge-credential.dto';
 import { LoungeService } from './lounge.service';
 
 @UseGuards(AuthGuard())
@@ -28,8 +30,10 @@ export class LoungeController {
 
   // 라운지 생성
   @Post()
-  async createLounge() {
-    return this.loungeService.createLounge();
+  async createLounge(
+    @Body(ValidationPipe) loungeCredentialDto: LoungeCredentialDto,
+  ): Promise<ResponseDto> {
+    return this.loungeService.createLounge(loungeCredentialDto);
   }
 
   // 라운지 삭제

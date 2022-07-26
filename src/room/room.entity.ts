@@ -14,7 +14,7 @@ import {
 
 @Entity()
 export class Room extends BaseEntity {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: number;
 
   @ManyToOne(() => User, user => user.rooms)
