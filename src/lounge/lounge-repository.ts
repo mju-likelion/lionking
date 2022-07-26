@@ -6,6 +6,23 @@ import { Lounge } from './lounges.entity';
 
 @EntityRepository(Lounge)
 export class LoungeRepository extends Repository<Lounge> {
+  // 내 라운지 전체 보기
+  async findAllLounges(loungeCredentialDto: LoungeCredentialDto): Promise<Array<Lounge>> {
+    const lounges = this.find({
+      name: loungeCredentialDto.name,
+    });
+    try {
+      return lounges;
+    } catch (error) {
+      throw new HttpException(
+        {
+          data: { error: '의도치 않은 에러가 발생하였습니다.' },
+        },
+        500,
+      );
+    }
+  }
+
   // 라운지 생성
   async createLounge(loungeCredentialDto: LoungeCredentialDto): Promise<number> {
     // 라운지 생성

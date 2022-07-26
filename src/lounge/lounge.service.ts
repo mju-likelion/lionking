@@ -17,9 +17,10 @@ export class LoungeService {
     return 'testLounge';
   }
 
-  // 라운지 정보 전체
-  async Lounges() {
-    return 'testLounge';
+  // 내 라운지 정보 전체
+  async Lounges(loungeCredentialDto: LoungeCredentialDto) {
+    const loungeName = await this.loungeRepository.findAllLounges(loungeCredentialDto);
+    return new ResponseDto(`${loungeName}`);
   }
 
   // 라운지 정보 단일

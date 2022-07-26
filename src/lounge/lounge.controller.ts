@@ -1,4 +1,13 @@
-import { Body, Controller, Delete, Get, Post, UseGuards, ValidationPipe } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Post,
+  Query,
+  UseGuards,
+  ValidationPipe,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ResponseDto } from 'src/auth/dto/response.dto';
 
@@ -16,10 +25,12 @@ export class LoungeController {
     return this.loungeService.testLounge();
   }
 
-  // 라운지 정보 전체
+  // 내 라운지 정보 전체
   @Get()
-  async Lounges() {
-    return this.loungeService.Lounges();
+  async Lounges(
+    @Query(ValidationPipe) loungeCredentialDto: LoungeCredentialDto,
+  ): Promise<ResponseDto> {
+    return this.loungeService.Lounges(loungeCredentialDto);
   }
 
   // 라운지 정보 단일
