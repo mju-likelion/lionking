@@ -10,7 +10,7 @@ import {
 
 @Entity()
 export class Lounge {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: number;
 
   @Column({ length: 20, nullable: true })
