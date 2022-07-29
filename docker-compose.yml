@@ -44,8 +44,8 @@ services:
       - '6379:6379'
 
   certbot:
-    depends_on:
-      - nginx
+    #depends_on:
+    #  - nginx
     image: certbot/certbot
     restart: unless-stopped
     volumes:
