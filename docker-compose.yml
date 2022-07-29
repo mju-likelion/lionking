@@ -45,7 +45,7 @@ services:
 
   certbot:
     depends_on:
-      - nest
+      - nginx
     image: certbot/certbot
     restart: unless-stopped
     volumes:
