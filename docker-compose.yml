@@ -10,8 +10,8 @@ services:
       - ./data/certbot:/etc/letsencrypt
       # - ./data/certbot/conf:/etc/letsencrypt:ro
       - ./data/certbot/www:/var/www/certbot
-    # depends_on:
-    # - nest
+    depends_on:
+      - nest
     command: "/bin/sh -c 'nginx; trap exit TERM; while :; do sleep 6h  & wait $${!}; nginx -s reload; done;'"
 
   nest:
