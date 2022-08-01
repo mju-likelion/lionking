@@ -7,11 +7,10 @@ services:
       - '443:443'
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
-      - ./data/certbot/conf:/etc/letsencrypt:ro
-      - ./data/certbot/www:/var/www/certbot
+      # - ./data/certbot/conf:/etc/letsencrypt:ro
+      # - ./data/certbot/www:/var/www/certbot
     depends_on:
       - nest
-      - certbot
     command: "/bin/sh -c 'nginx; trap exit TERM; while :; do sleep 6h  & wait $${!}; nginx -s reload; done;'"
 
   nest:
@@ -45,8 +44,8 @@ services:
       - '6379:6379'
 
   certbot:
-    #depends_on:
-    #  - nginx
+    depends_on:
+      - nginx
     image: certbot/certbot
     restart: unless-stopped
     volumes:
