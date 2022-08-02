@@ -76,6 +76,7 @@ export class AuthService {
           httpOnly: true,
           sameSite: 'none', // 기본값 'Lax'
           secure: true,
+          domain: 'liontown.city',
         });
       } catch (error) {
         console.error(error);
