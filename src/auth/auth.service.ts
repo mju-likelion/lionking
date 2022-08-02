@@ -72,7 +72,7 @@ export class AuthService {
       const accessToken = this.jwtService.sign(payload);
       try {
         res.cookie('jwt', accessToken, {
-          expires: add(new Date(), { hours: 12 }),
+          expires: add(new Date(), { hours: 21 }),
           httpOnly: true,
           sameSite: 'none', // 기본값 'Lax'
           secure: true,
