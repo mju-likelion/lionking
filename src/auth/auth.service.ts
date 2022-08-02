@@ -75,6 +75,7 @@ export class AuthService {
           expires: add(new Date(), { hours: 12 }),
           httpOnly: true,
           sameSite: 'none', // 기본값 'Lax'
+          secure: true,
         });
       } catch (error) {
         console.error(error);
