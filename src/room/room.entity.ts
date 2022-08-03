@@ -3,6 +3,7 @@ import { Lounge } from 'src/lounge/lounges.entity';
 import { Memo } from 'src/memo/memo.entity';
 import {
   BaseEntity,
+  Column,
   CreateDateColumn,
   Entity,
   ManyToOne,
@@ -13,7 +14,7 @@ import {
 
 @Entity()
 export class Room extends BaseEntity {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: number;
 
   @ManyToOne(() => User, user => user.rooms)
@@ -30,4 +31,7 @@ export class Room extends BaseEntity {
 
   @UpdateDateColumn()
   updateAt: Date;
+
+  @Column()
+  admin: boolean;
 }
