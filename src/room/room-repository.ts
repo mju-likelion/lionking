@@ -2,6 +2,7 @@ import { ConflictException } from '@nestjs/common';
 import { EntityRepository, Repository } from 'typeorm';
 
 import { CreateRoomDto } from './dto/room-create.dto';
+import { RoomQueryDto } from './dto/room-query.dto';
 import { Room } from './room.entity';
 
 @EntityRepository(Room)
@@ -33,5 +34,12 @@ export class RoomRepository extends Repository<Room> {
 
     await this.save(room);
     return room;
+  }
+
+  // eslint-disable-next-line no-unused-vars
+  async getRoomMemos(id: number, roomQuery: RoomQueryDto): Promise<Room[]> {
+    // const room = this.findOne(id, { select: ['id'] });
+    const rooms = await this.find({});
+    return rooms;
   }
 }
