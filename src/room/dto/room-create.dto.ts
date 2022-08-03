@@ -1,7 +1,10 @@
-export class CreateRoomDto {
-  userId: number;
+import { User } from 'src/auth/user.entity';
+import { Lounge } from 'src/lounge/lounges.entity';
 
-  loungeId: number;
+export class CreateRoomDto {
+  user: User;
+
+  lounge: Lounge;
 
   admin?: boolean;
 }
