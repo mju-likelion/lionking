@@ -7,21 +7,17 @@ import { Lounge } from './lounges.entity';
 @EntityRepository(Lounge)
 export class LoungeRepository extends Repository<Lounge> {
   // // 내 라운지 전체 보기
-  // async findAllLounges(page, userId): Promise<Array<Lounge>> {
-  //   const lounges = this.find({
-  //     name: loungeCredentialDto.name,
-  //   });
-  //   try {
-  //     return lounges;
-  //   } catch (error) {
-  //     throw new HttpException(
-  //       {
-  //         data: { error: '의도치 않은 에러가 발생하였습니다.' },
-  //       },
-  //       500,
-  //     );
-  //   }
-  // }
+  async findAllLounges(loungeId: Array<string>, page: number) {
+    const loungeData = await this.createQueryBuilder('lounge')
+      .where('lounge.id IN (:loungeId)', { loungeId })
+      .select(['name', 'id'])
+      .orderBy('lounge.createAt', 'ASC')
+      .limit(3)
+      .offset(page)
+      .execute();
+
+    return { data: loungeData };
+  }
 
   // // 라운지 단일
   // async findLounge(id: string): Promise<Lounge[]> {

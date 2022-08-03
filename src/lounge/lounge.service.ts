@@ -21,11 +21,13 @@ export class LoungeService {
     private userRepository: UserRepository,
   ) {} // private roomRepository: RoomRepository,
 
-  // // 내 라운지 정보 전체
-  // async Lounges(page: string, userId: User) {
-  //   const loungeName = await this.loungeRepository.findAllLounges(page, userId);
-  //   return new ResponseDto(`${loungeName}`);
-  // }
+  // 내 라운지 정보 전체
+  async Lounges(userId: number, page: number) {
+    const userData = await this.userRepository.findOne(userId);
+    const loungeIds = await this.roomRepository.getLoungeId(userData);
+    const loungeNames = await this.loungeRepository.findAllLounges(loungeIds, page);
+    return loungeNames;
+  }
 
   // // 라운지 정보 단일
   // async findLounge(id: string) {
@@ -35,6 +37,7 @@ export class LoungeService {
 
   // 라운지 생성
   async createLounge(loungeCredentialDto: LoungeCredentialDto, userId: number) {
+    // 유저 정보
     const userData = await this.userRepository.findOne(userId);
     // 라운지 생성
     const loungeData = await this.loungeRepository.createLounge(loungeCredentialDto);

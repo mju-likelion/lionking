@@ -5,10 +5,12 @@ import {
   Entity,
   OneToMany,
   PrimaryGeneratedColumn,
+  Unique,
   UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
+@Unique(['name'])
 export class Lounge {
   @PrimaryGeneratedColumn('uuid')
   id: number;

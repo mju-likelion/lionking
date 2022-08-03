@@ -1,4 +1,5 @@
 import { ConflictException } from '@nestjs/common';
+import { User } from 'src/auth/user.entity';
 import { EntityRepository, Repository } from 'typeorm';
 
 import { CreateRoomDto } from './dto/room-create.dto';
@@ -41,5 +42,14 @@ export class RoomRepository extends Repository<Room> {
     // const room = this.findOne(id, { select: ['id'] });
     const rooms = await this.find({});
     return rooms;
+  }
+
+  async getLoungeId(user: User): Promise<Array<string>> {
+    const loungeData = await this.createQueryBuilder('room')
+      .leftJoinAndSelect('room.user', 'user.id')
+      .where('room.user =  userId', { userId: user.id })
+      .select(['loungeId'])
+      .execute();
+    return loungeData.map(lounge => lounge.loungeId);
   }
 }
