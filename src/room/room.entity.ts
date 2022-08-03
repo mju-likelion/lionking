@@ -16,7 +16,7 @@ import {
 @Entity()
 @Unique(['admin'])
 export class Room extends BaseEntity {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: number;
 
   @Column({ default: false })
@@ -36,4 +36,7 @@ export class Room extends BaseEntity {
 
   @UpdateDateColumn()
   updateAt: Date;
+
+  @Column()
+  admin: boolean;
 }
