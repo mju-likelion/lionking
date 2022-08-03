@@ -3,6 +3,7 @@ import { Lounge } from 'src/lounge/lounges.entity';
 import { Memo } from 'src/memo/memo.entity';
 import {
   BaseEntity,
+  Column,
   CreateDateColumn,
   Entity,
   ManyToOne,
@@ -15,6 +16,9 @@ import {
 export class Room extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @Column()
+  admin: boolean;
 
   @ManyToOne(() => User, user => user.rooms)
   user: User;
