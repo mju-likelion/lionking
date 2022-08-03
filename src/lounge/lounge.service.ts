@@ -1,5 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { UserRepository } from 'src/auth/user-repository';
+import { CreateRoomDto } from 'src/room/dto/room-create.dto';
+import { RoomRepository } from 'src/room/room-repository';
 // import { User } from 'src/auth/user.entity';
 
 import { LoungeCredentialDto } from './dto/lounge-credential.dto';
@@ -12,12 +15,11 @@ export class LoungeService {
   constructor(
     @InjectRepository(LoungeRepository)
     private loungeRepository: LoungeRepository,
+    @InjectRepository(RoomRepository)
+    private roomRepository: RoomRepository,
+    @InjectRepository(UserRepository)
+    private userRepository: UserRepository,
   ) {} // private roomRepository: RoomRepository,
-
-  // test
-  async testLounge() {
-    return 'testLounge';
-  }
 
   // // 내 라운지 정보 전체
   // async Lounges(page: string, userId: User) {
@@ -32,12 +34,13 @@ export class LoungeService {
   // }
 
   // 라운지 생성
-  async createLounge(loungeCredentialDto: LoungeCredentialDto) {
+  async createLounge(loungeCredentialDto: LoungeCredentialDto, userId: number) {
+    const userData = await this.userRepository.findOne(userId);
     // 라운지 생성
-    const url = await this.loungeRepository.createLounge(loungeCredentialDto);
+    const loungeData = await this.loungeRepository.createLounge(loungeCredentialDto);
     // 방장 룸 생성
-    // this.roomRepository.createRoom(roomCredentialDto);
-    return new ResponseUrlDto(`liontown.city/lounges/${url}`);
+    await this.roomRepository.adminCreateRoom(new CreateRoomDto(userData, loungeData, true));
+    return new ResponseUrlDto(`https://liontown.city/lounges/${loungeData.id}`);
   }
 
   // 라운지 탈퇴

@@ -40,7 +40,7 @@ export class LoungeRepository extends Repository<Lounge> {
   // }
 
   // 라운지 생성
-  async createLounge(loungeCredentialDto: LoungeCredentialDto): Promise<number> {
+  async createLounge(loungeCredentialDto: LoungeCredentialDto): Promise<Lounge> {
     // 라운지 생성
     const lounge = this.create({
       limit: loungeCredentialDto.limit,
@@ -48,7 +48,7 @@ export class LoungeRepository extends Repository<Lounge> {
     });
     try {
       await this.save(lounge);
-      return lounge.id;
+      return lounge;
     } catch (error) {
       if (error.code === 'ER_DUP_ENTRY') {
         throw new HttpException(

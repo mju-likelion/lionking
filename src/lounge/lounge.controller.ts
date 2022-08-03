@@ -1,5 +1,6 @@
-import { Body, Controller, Get, Post, UseGuards, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Post, UseGuards, ValidationPipe } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { GetUserId } from 'src/auth/get-user.decorator';
 // import { ResponseDto } from 'src/auth/dto/response.dto';
 // import { User } from 'src/auth/user.entity';
 
@@ -13,12 +14,6 @@ import { LoungeService } from './lounge.service';
 @Controller('api/lounges')
 export class LoungeController {
   constructor(private readonly loungeService: LoungeService) {}
-
-  // 라운지 테스트
-  @Get()
-  async testLounge() {
-    return this.loungeService.testLounge();
-  }
 
   // // 내 라운지 정보 전체
   // @Get()
@@ -36,7 +31,8 @@ export class LoungeController {
   @Post()
   async createLounge(
     @Body(ValidationPipe) loungeCredentialDto: LoungeCredentialDto,
+    @GetUserId() userId: number,
   ): Promise<ResponseUrlDto> {
-    return this.loungeService.createLounge(loungeCredentialDto);
+    return this.loungeService.createLounge(loungeCredentialDto, userId);
   }
 }

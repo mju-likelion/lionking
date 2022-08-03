@@ -9,17 +9,15 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
-  Unique,
   UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
-@Unique(['admin'])
 export class Room extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: number;
 
-  @Column({ default: false })
+  @Column({ default: false, nullable: false })
   admin: boolean;
 
   @ManyToOne(() => User, user => user.rooms)
@@ -36,7 +34,4 @@ export class Room extends BaseEntity {
 
   @UpdateDateColumn()
   updateAt: Date;
-
-  @Column()
-  admin: boolean;
 }
