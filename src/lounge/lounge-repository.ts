@@ -26,17 +26,26 @@ export class LoungeRepository extends Repository<Lounge> {
   }
 
   // 라운지 생성
+  // eslint-disable-next-line consistent-return
   async createLounge(loungeCredentialDto: LoungeCredentialDto): Promise<Lounge> {
     // 라운지 생성
     const lounge = this.create({
       limit: loungeCredentialDto.limit,
       name: loungeCredentialDto.name,
     });
+
     try {
       await this.save(lounge);
       return lounge;
     } catch (error) {
-      if (error.code === 'ER_DUP_ENTRY') {
+      if (error.sqlMessage.includes('lounge.PRIMARY')) {
+        throw new HttpException(
+          {
+            data: { error: '알 수 없는 에러가 발생하였습니다 재시도해주세요.' },
+          },
+          510,
+        );
+      } else if (error.code === 'ER_DUP_ENTRY') {
         throw new HttpException(
           {
             data: { error: '이미 있는 라운지 입니다.' },

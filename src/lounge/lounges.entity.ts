@@ -1,10 +1,12 @@
+import { nanoid } from 'nanoid';
 import { Room } from 'src/room/room.entity';
 import {
+  BeforeInsert,
   Column,
   CreateDateColumn,
   Entity,
   OneToMany,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
   Unique,
   UpdateDateColumn,
 } from 'typeorm';
@@ -12,8 +14,13 @@ import {
 @Entity()
 @Unique(['name'])
 export class Lounge {
-  @PrimaryGeneratedColumn('uuid')
-  id: number;
+  @PrimaryColumn({ length: 1, unique: true })
+  id: string;
+
+  @BeforeInsert()
+  private beforeInsert() {
+    this.id = nanoid(1);
+  }
 
   @Column({ length: 20, nullable: true })
   name: string;
