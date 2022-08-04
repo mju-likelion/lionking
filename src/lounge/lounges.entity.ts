@@ -21,7 +21,7 @@ export class Lounge {
   @Column({ default: 100, nullable: true })
   limit: number;
 
-  @OneToMany(() => Room, room => room.user)
+  @OneToMany(() => Room, room => room.lounge)
   rooms: Room[];
 
   @CreateDateColumn()

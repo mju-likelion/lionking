@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserRepository } from 'src/auth/user-repository';
 import { CreateRoomDto } from 'src/room/dto/room-create.dto';
@@ -26,14 +26,19 @@ export class LoungeService {
     const userData = await this.userRepository.findOne(userId);
     const loungeIds = await this.roomRepository.getLoungeId(userData);
     const loungeNames = await this.loungeRepository.findAllLounges(loungeIds, page);
+
     return loungeNames;
   }
 
-  // // 라운지 정보 단일
-  // async findLounge(id: string) {
-  //   const userName = await this.loungeRepository.findLounge(id);
-  //   return userName;
-  // }
+  // 라운지 정보 단일
+  async findLounge(id: string) {
+    const userNames = await this.loungeRepository.findLounge(id);
+    const loungeName = await this.loungeRepository.findOne(id, { select: ['name'] });
+    if (!userNames || !loungeName) {
+      throw new HttpException({ error: { message: '해당유저 또는 라운지가 없습니다' } }, 404);
+    }
+    return { data: { userNames, loungeName } };
+  }
 
   // 라운지 생성
   async createLounge(loungeCredentialDto: LoungeCredentialDto, userId: number) {

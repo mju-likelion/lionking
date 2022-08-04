@@ -19,21 +19,11 @@ export class LoungeRepository extends Repository<Lounge> {
     return { data: loungeData };
   }
 
-  // // 라운지 단일
-  // async findLounge(id: string): Promise<Lounge[]> {
-  //   const userName: Lounge[] = await this.find({
-  //     where: { id },
-  //     relations: ['rooms'],
-  //   });
-  //   // room ID
-  //   const roomId = this.createQueryBuilder('lounge').leftJoinAndSelect(
-  //     `lounge.rooms[${i}].loungeId`,
-  //     id,
-  //   );
-  //   // console.log(roomId);
-  //   // user 이름
-  //   return userName;
-  // }
+  // 라운지 단일
+  async findLounge(id: string) {
+    const roomData = await this.find({ relations: ['rooms', 'rooms.user'], where: { id } });
+    return roomData[0].rooms.map(room => room.user.name);
+  }
 
   // 라운지 생성
   async createLounge(loungeCredentialDto: LoungeCredentialDto): Promise<Lounge> {

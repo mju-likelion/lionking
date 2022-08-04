@@ -1,13 +1,21 @@
-import { Body, Controller, Get, Post, Query, UseGuards, ValidationPipe } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Query,
+  UseGuards,
+  ValidationPipe,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { GetUserId } from 'src/auth/get-user.decorator';
 
 import { LoungeCredentialDto } from './dto/lounge-credential.dto';
 import { ResponseUrlDto } from './dto/response-url.dto';
 import { LoungeService } from './lounge.service';
-import { Lounge } from './lounges.entity';
 
-@UseGuards(AuthGuard())
+// @UseGuards(AuthGuard())
 @Controller('api/lounges')
 export class LoungeController {
   constructor(private readonly loungeService: LoungeService) {}
@@ -18,11 +26,11 @@ export class LoungeController {
     return this.loungeService.Lounges(userId, page);
   }
 
-  // // 라운지 정보 단일
-  // @Get('/:id')
-  // async findLounge(@Param('id') id: string): Promise<Lounge[]> {
-  //   return this.loungeService.findLounge(id);
-  // }
+  // 라운지 정보 단일
+  @Get('/:id')
+  async findLounge(@Param('id') id: string) {
+    return this.loungeService.findLounge(id);
+  }
 
   // 라운지 생성
   @Post()
