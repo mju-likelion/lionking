@@ -15,7 +15,7 @@ import { LoungeCredentialDto } from './dto/lounge-credential.dto';
 import { ResponseUrlDto } from './dto/response-url.dto';
 import { LoungeService } from './lounge.service';
 
-// @UseGuards(AuthGuard())
+@UseGuards(AuthGuard())
 @Controller('api/lounges')
 export class LoungeController {
   constructor(private readonly loungeService: LoungeService) {}

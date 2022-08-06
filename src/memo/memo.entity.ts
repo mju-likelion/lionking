@@ -22,10 +22,10 @@ export class Memo extends BaseEntity {
   @Column({ length: 1000, nullable: true })
   content: string;
 
-  @ManyToOne(() => User, user => user.memos)
+  @ManyToOne(() => User, user => user.id)
   user: User;
 
-  @ManyToOne(() => Room, room => room.memos)
+  @ManyToOne(() => Room, room => room.id)
   room: Room;
 
   @CreateDateColumn()

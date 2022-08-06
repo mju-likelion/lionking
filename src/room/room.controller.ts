@@ -1,11 +1,18 @@
-import { Controller, Get, Param, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ResponseDto } from 'src/auth/dto/response.dto';
+import { User } from 'src/auth/user.entity';
+import { MemoCredentialDto } from 'src/memo/dto/memo-credential.dto';
+import { Memo } from 'src/memo/memo.entity';
+
+import { GetUserId } from '../auth/get-user.decorator';
 
 import { RoomQueryDto } from './dto/room-query.dto';
 import { Room } from './room.entity';
 import { RoomService } from './room.service';
 
+@UseGuards(AuthGuard())
 @ApiTags('Room')
 @Controller('api/rooms')
 export class RoomController {
@@ -45,15 +52,36 @@ export class RoomController {
       },
     },
   })
-  @UseGuards(AuthGuard('jwt'))
-  @Get(':id')
-  async getRoom(@Param() params) {
-    return this.roomService.getRoom(+params.id);
+  @Get('/:id')
+  async getRooms(@Param('id') id: number, @GetUserId() userId: number) {
+    return this.roomService.getRoom(id, userId);
+  }
+
+  // 방명록 생성
+  @Post('/:id/memos')
+  async createRoomMemos(
+    @Body() memoCredentialDto: MemoCredentialDto,
+    @GetUserId() userId: User,
+    @Param('id') id: Room,
+  ): Promise<Memo> {
+    return this.roomService.createRoomMemos(memoCredentialDto, userId, id);
+  }
+
+  @Delete('/:id')
+  async deleteRoomMemos(
+    @Param('id') id: number,
+    @GetUserId() userId: number,
+  ): Promise<ResponseDto> {
+    return this.roomService.deleteRoomMemos(+id, +userId);
   }
 
   // 방명록 전체조회
   @Get('/:id/memos')
-  async getRoomMemos(@Param('id') id: number, @Query() roomQuery: RoomQueryDto): Promise<Room[]> {
-    return this.roomService.getRoomMemos(id, roomQuery);
+  async getMyRoomMemos(
+    @Param('id') id: number,
+    @GetUserId() userId: number,
+    @Query('page') page: number,
+  ): Promise<Memo> {
+    return this.roomService.getMyRoomMemos(+id, +userId, page);
   }
 }
