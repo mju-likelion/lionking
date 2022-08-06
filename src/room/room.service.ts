@@ -7,7 +7,6 @@ import { MemoRepository } from 'src/memo/memo-repository';
 import { Memo } from 'src/memo/memo.entity';
 import { Room } from 'src/room/room.entity';
 
-import { RoomQueryDto } from './dto/room-query.dto';
 import { RoomRepository } from './room-repository';
 
 @Injectable()

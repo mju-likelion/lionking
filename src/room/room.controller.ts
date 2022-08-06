@@ -8,7 +8,6 @@ import { Memo } from 'src/memo/memo.entity';
 
 import { GetUserId } from '../auth/get-user.decorator';
 
-import { RoomQueryDto } from './dto/room-query.dto';
 import { Room } from './room.entity';
 import { RoomService } from './room.service';
 

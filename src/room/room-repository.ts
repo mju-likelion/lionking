@@ -1,11 +1,8 @@
 import { ConflictException } from '@nestjs/common';
 import { User } from 'src/auth/user.entity';
-import { Lounge } from 'src/lounge/lounges.entity';
-import { Memo } from 'src/memo/memo.entity';
 import { EntityRepository, Repository } from 'typeorm';
 
 import { CreateRoomDto } from './dto/room-create.dto';
-import { RoomQueryDto } from './dto/room-query.dto';
 import { Room } from './room.entity';
 
 @EntityRepository(Room)
