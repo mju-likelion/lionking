@@ -14,7 +14,7 @@ import {
 
 @Entity()
 export class Room extends BaseEntity {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn()
   id: number;
 
   @Column({ default: false, nullable: false })
