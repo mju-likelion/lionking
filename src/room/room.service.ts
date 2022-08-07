@@ -1,4 +1,4 @@
-import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ResponseDto } from 'src/auth/dto/response.dto';
 import { User } from 'src/auth/user.entity';
@@ -33,19 +33,19 @@ export class RoomService {
     return memo;
   }
 
-  async deleteRoomMemos(memoId: number, userId: number): Promise<ResponseDto> {
+  async deleteRoomMemos(roomId: number, userId: number): Promise<ResponseDto> {
     const memoCreateId = await this.roomRepository.getUserId(userId);
     if (+memoCreateId !== +userId) {
       throw new HttpException({ data: { error: '권한이 없습니다' } }, 403);
     }
 
-    const result = await this.memoRepository.delete(memoId);
+    const result = await this.roomRepository.delete(roomId);
 
     if (result.affected === 0) {
-      throw new NotFoundException(`해당 메모는 없습니다.${memoId}`);
+      throw new HttpException({ data: { error: '해당 라운지에 가입되어있지 않습니다.' } }, 404);
     }
 
-    return new ResponseDto(`${memoId} 메모를 삭제하였습니다`);
+    return new ResponseDto(`라운지를 탈퇴하였습니다.`);
   }
 
   async getMyRoomMemos(roomsId: number, userId: number, page: number) {
