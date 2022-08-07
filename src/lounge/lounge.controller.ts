@@ -40,4 +40,9 @@ export class LoungeController {
   ): Promise<ResponseUrlDto> {
     return this.loungeService.createLounge(loungeCredentialDto, userId);
   }
+
+  @Post('/:id')
+  async joinLounge(@Param('id') id: string, @GetUserId() userId: number) {
+    return this.loungeService.joinLounge(id, userId);
+  }
 }
