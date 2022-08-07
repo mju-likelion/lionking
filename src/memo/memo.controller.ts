@@ -1,4 +1,4 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import { Controller, Delete, Get, Put, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
 import { MemoService } from './memo.service';
@@ -8,8 +8,18 @@ import { MemoService } from './memo.service';
 export class MemoController {
   constructor(private readonly memoService: MemoService) {}
 
-  @Get()
-  async testMemo() {
+  @Get('/:id')
+  async getMemo() {
     return this.memoService.testMemo();
+  }
+
+  @Delete('/:id')
+  async deleteMemo() {
+    return this.memoService.deleteMemo();
+  }
+
+  @Put('/:id')
+  async updateMemo() {
+    return this.memoService.updateMemo();
   }
 }
