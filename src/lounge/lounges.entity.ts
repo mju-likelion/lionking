@@ -14,12 +14,12 @@ import {
 @Entity()
 @Unique(['name'])
 export class Lounge {
-  @PrimaryColumn({ length: 1, unique: true })
+  @PrimaryColumn({ length: 6, unique: true })
   id: string;
 
   @BeforeInsert()
   private beforeInsert() {
-    this.id = nanoid(1);
+    this.id = nanoid(6);
   }
 
   @Column({ length: 20, nullable: true })
