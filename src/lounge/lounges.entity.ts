@@ -5,10 +5,12 @@ import {
   Entity,
   OneToMany,
   PrimaryGeneratedColumn,
+  Unique,
   UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
+@Unique(['name'])
 export class Lounge {
   @PrimaryGeneratedColumn('uuid')
   id: number;
@@ -19,7 +21,7 @@ export class Lounge {
   @Column({ default: 100, nullable: true })
   limit: number;
 
-  @OneToMany(() => Room, room => room.user)
+  @OneToMany(() => Room, room => room.lounge)
   rooms: Room[];
 
   @CreateDateColumn()

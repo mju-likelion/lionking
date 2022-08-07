@@ -1,7 +1,9 @@
-import { Controller, Get, Param, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, Query, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 
+import { RoomQueryDto } from './dto/room-query.dto';
+import { Room } from './room.entity';
 import { RoomService } from './room.service';
 
 @ApiTags('Room')
@@ -47,5 +49,11 @@ export class RoomController {
   @Get(':id')
   async getRoom(@Param() params) {
     return this.roomService.getRoom(+params.id);
+  }
+
+  // 방명록 전체조회
+  @Get('/:id/memos')
+  async getRoomMemos(@Param('id') id: number, @Query() roomQuery: RoomQueryDto): Promise<Room[]> {
+    return this.roomService.getRoomMemos(id, roomQuery);
   }
 }

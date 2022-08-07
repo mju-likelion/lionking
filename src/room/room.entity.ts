@@ -17,6 +17,9 @@ export class Room extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: number;
 
+  @Column({ default: false, nullable: false })
+  admin: boolean;
+
   @ManyToOne(() => User, user => user.rooms)
   user: User;
 
@@ -31,7 +34,4 @@ export class Room extends BaseEntity {
 
   @UpdateDateColumn()
   updateAt: Date;
-
-  @Column()
-  admin: boolean;
 }
