@@ -70,7 +70,7 @@ export class LoungeService {
         .createQueryBuilder('room')
         .leftJoinAndSelect('room.user', 'user.id')
         .where('room.user =  userId', { userId })
-        .select(['userId', 'name'])
+        .select(['room.id', 'name'])
         .execute();
       throw new HttpException({ data: myLounge }, 200);
     }
