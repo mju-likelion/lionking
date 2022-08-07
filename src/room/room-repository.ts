@@ -14,7 +14,6 @@ export class RoomRepository extends Repository<Room> {
       user,
       lounge,
     });
-
     await this.save(room);
     return room;
   }

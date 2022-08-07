@@ -7,6 +7,7 @@ import { RoomRepository } from 'src/room/room-repository';
 
 import { LoungeCredentialDto } from './dto/lounge-credential.dto';
 import { ResponseUrlDto } from './dto/response-url.dto';
+import { ResponseDto } from './dto/response.dto';
 // import { ResponseDto } from './dto/response.dto';
 import { LoungeRepository } from './lounge-repository';
 
@@ -54,5 +55,26 @@ export class LoungeService {
   // 라운지 탈퇴
   async deleteLounge() {
     return 'testLounge';
+  }
+
+  async joinLounge(id: string, userId: number) {
+    const userData = await this.userRepository.findOne(userId);
+    const loungeData = await this.loungeRepository.findOne(id);
+    const roomData = await this.roomRepository
+      .createQueryBuilder('room')
+      .where('room.loungeId = (:id) AND room.userId = (:userId)', { id: loungeData.id, userId })
+      .execute();
+
+    if (roomData.length) {
+      const myLounge = await this.roomRepository
+        .createQueryBuilder('room')
+        .leftJoinAndSelect('room.user', 'user.id')
+        .where('room.user =  userId', { userId })
+        .select(['userId', 'name'])
+        .execute();
+      throw new HttpException({ data: myLounge }, 200);
+    }
+    await this.roomRepository.userCreateRoom(new CreateRoomDto(userData, loungeData));
+    return new ResponseDto('라운지가입에 성공하였습니다.');
   }
 }
