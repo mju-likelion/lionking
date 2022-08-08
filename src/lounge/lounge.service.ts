@@ -6,6 +6,7 @@ import { RoomRepository } from 'src/room/room-repository';
 // import { User } from 'src/auth/user.entity';
 
 import { LoungeCredentialDto } from './dto/lounge-credential.dto';
+import { LoungeRoomDto } from './dto/lounge-room.dto';
 import { ResponseUrlDto } from './dto/response-url.dto';
 import { ResponseDto } from './dto/response.dto';
 // import { ResponseDto } from './dto/response.dto';
@@ -33,12 +34,12 @@ export class LoungeService {
 
   // 라운지 정보 단일
   async findLounge(id: string) {
-    const userNames = await this.loungeRepository.findLounge(id);
     const loungeName = await this.loungeRepository.findOne(id, { select: ['name'] });
-    if (!userNames || !loungeName) {
-      throw new HttpException({ error: { message: '해당유저 또는 라운지가 없습니다' } }, 404);
+    if (!loungeName) {
+      throw new HttpException({ error: { message: `${id} 해당 라운지가 없습니다` } }, 404);
     }
-    return { data: { userNames, loungeName } };
+    const userNames = await this.loungeRepository.findLounge(id);
+    return { data: new LoungeRoomDto(userNames, loungeName) };
   }
 
   // 라운지 생성

@@ -12,8 +12,10 @@ import { AuthGuard } from '@nestjs/passport';
 import { GetUserId } from 'src/auth/get-user.decorator';
 
 import { LoungeCredentialDto } from './dto/lounge-credential.dto';
+import { LoungeRoomDto } from './dto/lounge-room.dto';
 import { ResponseUrlDto } from './dto/response-url.dto';
 import { LoungeService } from './lounge.service';
+import { Lounge } from './lounges.entity';
 
 @UseGuards(AuthGuard())
 @Controller('api/lounges')
@@ -22,13 +24,16 @@ export class LoungeController {
 
   // 내 라운지 정보 전체
   @Get()
-  async Lounges(@GetUserId() userId: number, @Query('page') page: number) {
+  async Lounges(
+    @GetUserId() userId: number,
+    @Query('page') page: number,
+  ): Promise<{ data: Lounge[] }> {
     return this.loungeService.Lounges(userId, page);
   }
 
   // 라운지 정보 단일
   @Get('/:id')
-  async findLounge(@Param('id') id: string) {
+  async findLounge(@Param('id') id: string): Promise<{ data: LoungeRoomDto }> {
     return this.loungeService.findLounge(id);
   }
 
