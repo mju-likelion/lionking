@@ -37,9 +37,11 @@ export class MemoRepository extends Repository<Memo> {
   async getRoom(roomId: number, userId: number) {
     const memoData = await this.createQueryBuilder('memo')
       .where('memo.userId IN (:userId) and memo.roomId IN (roomId)', { userId, roomId })
-      .limit(2)
+      .limit(5)
       .orderBy('rand()')
+      .select(['id', 'title', 'content'])
       .execute();
+    console.log(roomId);
     return memoData;
   }
 }

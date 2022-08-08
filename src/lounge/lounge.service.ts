@@ -52,11 +52,6 @@ export class LoungeService {
     return new ResponseUrlDto(`https://liontown.city/lounges/${loungeData.id}`);
   }
 
-  // 라운지 탈퇴
-  async deleteLounge() {
-    return 'testLounge';
-  }
-
   async joinLounge(id: string, userId: number) {
     const userData = await this.userRepository.findOne(userId);
     const loungeData = await this.loungeRepository.findOne(id);
