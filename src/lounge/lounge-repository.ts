@@ -21,8 +21,8 @@ export class LoungeRepository extends Repository<Lounge> {
 
   // 라운지 단일
   async findLounge(id: string) {
-    const roomData = await this.find({ relations: ['rooms', 'rooms.user'], where: { id } });
-    return roomData[0].rooms.map(room => room.user.name);
+    const roomData = await this.findOne(id, { relations: ['rooms', 'rooms.user'] });
+    return roomData.rooms.map(room => room.user.name);
   }
 
   // 라운지 생성
