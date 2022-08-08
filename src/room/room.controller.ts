@@ -1,4 +1,14 @@
-import { Body, Controller, Delete, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Query,
+  UseGuards,
+  ValidationPipe,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ResponseDto } from 'src/auth/dto/response.dto';
@@ -59,7 +69,7 @@ export class RoomController {
   // 방명록 생성
   @Post('/:id/memos')
   async createRoomMemos(
-    @Body() memoCredentialDto: MemoCredentialDto,
+    @Body(ValidationPipe) memoCredentialDto: MemoCredentialDto,
     @GetUserId() userId: User,
     @Param('id') id: Room,
   ): Promise<Memo> {

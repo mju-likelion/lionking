@@ -1,5 +1,11 @@
-export class MemoCredentialDto {
-  title: string;
+import { IsString, MaxLength } from 'class-validator';
 
-  content: string;
+export class MemoCredentialDto {
+  @IsString()
+  @MaxLength(20)
+  title?: string;
+
+  @IsString()
+  @MaxLength(1000)
+  content?: string;
 }
