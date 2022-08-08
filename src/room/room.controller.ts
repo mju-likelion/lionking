@@ -10,7 +10,7 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiOkResponse, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { ResponseDto } from 'src/auth/dto/response.dto';
 import { User } from 'src/auth/user.entity';
 import { MemoCredentialDto } from 'src/memo/dto/memo-credential.dto';
@@ -85,6 +85,7 @@ export class RoomController {
   }
 
   // 방명록 전체조회
+  @ApiQuery({ name: 'page', required: false })
   @Get('/:id/memos')
   async getMyRoomMemos(
     @Param('id') id: number,

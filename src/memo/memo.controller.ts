@@ -9,6 +9,7 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { ApiBody } from '@nestjs/swagger';
 import { GetUserId } from 'src/auth/get-user.decorator';
 
 import { MemoUpdateDto } from './dto/memo-update.dto';
@@ -30,6 +31,7 @@ export class MemoController {
     return this.memoService.deleteMemo(id, userId);
   }
 
+  @ApiBody({ type: MemoUpdateDto, required: false })
   @Put('/:id')
   async updateMemo(
     @Param('id') id: number,
