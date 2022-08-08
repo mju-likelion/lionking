@@ -22,6 +22,10 @@ export class RoomService {
   ) {}
 
   async getRoom(roomsId: number, userId: number): Promise<{ data: any }> {
+    const room = await this.roomRepository.findOne(roomsId);
+    if (!room) {
+      throw new HttpException({ data: { error: `${roomsId} 해당룸이 존재하지않습니다.` } }, 404);
+    }
     const memoData = await this.memoRepository.getRoom(roomsId, userId);
     const userName = await this.userRepository.findOne(userId, { select: ['name'] });
     return { data: { userName, memoData } };
