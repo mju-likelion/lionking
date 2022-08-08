@@ -15,6 +15,9 @@ export class MemoService {
 
   async getMemo(id: number): Promise<{ data: Memo }> {
     const memoData = await this.memoRepository.findOne(id);
+    if (!memoData) {
+      throw new HttpException({ data: { error: `${id} 해당 메모가 없습니다` } }, 404);
+    }
     return { data: memoData };
   }
 
@@ -39,7 +42,9 @@ export class MemoService {
     const memoData = await this.memoRepository.findOne(id, {
       relations: ['user'],
     });
-
+    if (!memoData) {
+      throw new HttpException({ data: { error: `${id} 해당 메모가 없습니다` } }, 404);
+    }
     if (memoData.user.id !== userId) {
       throw new HttpException({ data: { error: '권한이 없습니다' } }, 403);
     }

@@ -1,6 +1,7 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ResponseDto } from 'src/auth/dto/response.dto';
+import { UserRepository } from 'src/auth/user-repository';
 import { User } from 'src/auth/user.entity';
 import { MemoCredentialDto } from 'src/memo/dto/memo-credential.dto';
 import { MemoRepository } from 'src/memo/memo-repository';
@@ -16,11 +17,18 @@ export class RoomService {
     private readonly roomRepository: RoomRepository,
     @InjectRepository(MemoRepository)
     private readonly memoRepository: MemoRepository,
+    @InjectRepository(UserRepository)
+    private readonly userRepository: UserRepository,
   ) {}
 
   async getRoom(roomsId: number, userId: number): Promise<{ data: any }> {
+    const room = await this.roomRepository.findOne(roomsId);
+    if (!room) {
+      throw new HttpException({ data: { error: `${roomsId} 해당룸이 존재하지않습니다.` } }, 404);
+    }
     const memoData = await this.memoRepository.getRoom(roomsId, userId);
-    return { data: memoData };
+    const userName = await this.userRepository.findOne(userId, { select: ['name'] });
+    return { data: { userName, memoData } };
   }
 
   async createRoomMemos(
