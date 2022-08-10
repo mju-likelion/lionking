@@ -36,7 +36,7 @@ export class LoungeController {
     schema: {
       example: {
         data: {
-          id: 1,
+          id: 'ABCDEF',
           name: 'lounge1',
         },
       },

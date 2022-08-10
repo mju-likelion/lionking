@@ -10,7 +10,7 @@ export class LoungeRepository extends Repository<Lounge> {
   async findAllLounges(loungeId: Array<string>, page: number) {
     const loungeData = await this.createQueryBuilder('lounge')
       .where('lounge.id IN (:loungeId)', { loungeId })
-      .select(['name', 'id'])
+      .select(['id', 'name'])
       .orderBy('lounge.createAt', 'ASC')
       .limit(3)
       .offset(page || 0)
