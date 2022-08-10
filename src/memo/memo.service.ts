@@ -14,7 +14,7 @@ export class MemoService {
   ) {}
 
   async getMemo(id: number): Promise<{ data: Memo }> {
-    const memoData = await this.memoRepository.findOne(id);
+    const memoData = await this.memoRepository.findOne(id, { select: ['id', 'title', 'content'] });
     if (!memoData) {
       throw new HttpException({ data: { error: `${id} 해당 메모가 없습니다` } }, 404);
     }
@@ -58,6 +58,7 @@ export class MemoService {
     await this.memoRepository.save(memoData);
     return {
       data: {
+        id,
         title: memoData.title,
         content: memoData.content,
       },

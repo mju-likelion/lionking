@@ -25,7 +25,7 @@ import { MemoService } from './memo.service';
 export class MemoController {
   constructor(private readonly memoService: MemoService) {}
 
-  @ApiOperation(new SwaggerOperationDto('방명록 불러오기 API', '특정 유저의 방명록을 불러옵니다.'))
+  @ApiOperation(new SwaggerOperationDto('방명록 불러오기 API', '특정 방명록을 불러옵니다.'))
   @ApiResponse(new SwaggerErrorDto(404, '해당 메모가 없습니다.'))
   @ApiOkResponse({
     description: '방명록 불러오기',
@@ -35,10 +35,6 @@ export class MemoController {
           id: 1,
           title: 'hi',
           content: 'asdfasdf',
-          userId: 'asdf',
-          loungeId: 'qewr',
-          createAt: '2022-07-22T22:51:44.739Z',
-          updateAt: '2022-07-22T22:51:44.739Z',
         },
       },
     },
@@ -51,7 +47,7 @@ export class MemoController {
   @ApiOperation(new SwaggerOperationDto('방명록 삭제 API', '작성한 방명록을 삭제합니다.'))
   @ApiResponse(new SwaggerResponseDto(201, '메모를 삭제하였습니다.'))
   @ApiResponse(new SwaggerErrorDto(403, '권한이 없습니다.'))
-  @ApiResponse(new SwaggerErrorDto(400, '해당 메모가 없습니다.'))
+  @ApiResponse(new SwaggerErrorDto(404, '해당 메모가 없습니다.'))
   @Delete('/:id')
   async deleteMemo(@Param('id') id: number, @GetUserId() userId: number) {
     return this.memoService.deleteMemo(id, userId);
@@ -68,10 +64,6 @@ export class MemoController {
           id: 1,
           title: 'hi',
           content: 'asdfasdf',
-          userId: 'asdf',
-          loungeId: 'qewr',
-          createAt: '2022-07-22T22:51:44.739Z',
-          updateAt: '2022-07-22T22:51:44.739Z',
         },
       },
     },
