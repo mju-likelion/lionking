@@ -59,18 +59,23 @@ export class LoungeController {
     schema: {
       example: {
         data: {
-          id: 1,
-          user: {
-            id: 1,
-            name: '재민',
-          },
-          rooms: [
+          roomData: [
             {
-              id: 1,
-              userId: 1,
-              LoungeId: 'ABCDEF',
+              roomId: 1,
+              userName: '닉네임1',
+            },
+            {
+              roomId: 7,
+              userName: '닉네임2',
+            },
+            {
+              roomId: 8,
+              userName: '닉네임3',
             },
           ],
+          loungeName: {
+            name: '라운지',
+          },
         },
       },
     },
