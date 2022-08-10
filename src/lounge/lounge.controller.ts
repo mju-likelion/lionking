@@ -74,13 +74,13 @@ export class LoungeController {
             },
           ],
           loungeName: {
-            name: '라운지',
+            name: '라운지명',
           },
         },
       },
     },
   })
-  @ApiResponse(new SwaggerErrorDto(401, '해당 라운지가 존재하지 않습니다.'))
+  @ApiResponse(new SwaggerErrorDto(404, ' {id} 해당 라운지가 없습니다'))
   @Get('/:id')
   async findLounge(@Param('id') id: string): Promise<{ data: LoungeRoomDto }> {
     return this.loungeService.findLounge(id);
