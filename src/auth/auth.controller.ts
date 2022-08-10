@@ -94,9 +94,16 @@ export class AuthController {
   @ApiOperation(new SwaggerOperationDto('계정삭제 API', '로그인된 회원의 계정을 삭제합니다.'))
   @ApiResponse(new SwaggerResponseDto(201, '계정삭제를 완료하였습니다.'))
   @Delete('/sign-drop')
-  @UseGuards(AuthGuard('jwt'))
-  @ApiBearerAuth()
+  @UseGuards(AuthGuard())
   async signDrop(@GetUserId() userId: number) {
     return this.authService.delPassword(userId);
+  }
+
+  @ApiOperation(new SwaggerOperationDto('로그아웃 API', '로그아웃을 합니다.'))
+  @ApiResponse(new SwaggerResponseDto(200, '로그아웃에 성공하였습니다.'))
+  @Delete('/sign-out')
+  @UseGuards(AuthGuard())
+  async signOut(@Res() res: Response): Promise<ResponseDto> {
+    return this.authService.signOut(res);
   }
 }

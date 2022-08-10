@@ -135,4 +135,19 @@ export class AuthService {
     await this.userRepository.delete(userId);
     return new ResponseDto('계정삭제를 완료하였습니다.');
   }
+
+  async signOut(res: Response): Promise<ResponseDto> {
+    try {
+      res.cookie('jwt', '', {
+        maxAge: 0,
+        httpOnly: true,
+        sameSite: 'none', // 기본값 'Lax'
+        secure: true,
+        domain: 'liontown.city',
+      });
+    } catch (error) {
+      console.error(error);
+    }
+    return new ResponseDto('로그아웃에 성공하였습니다.');
+  }
 }
