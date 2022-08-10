@@ -30,7 +30,7 @@ export class MemoService {
     const result = await this.memoRepository.delete(id);
 
     if (!result.affected) {
-      throw new NotFoundException(`${id} 해당 메모는 없습니다.`);
+      throw new NotFoundException(`${id} 해당 메모가 없습니다.`);
     }
 
     return new ResponseDto(`${id} 메모를 삭제하였습니다`);

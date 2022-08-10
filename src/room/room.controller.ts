@@ -10,13 +10,15 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiOkResponse, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiOkResponse, ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ResponseDto } from 'src/auth/dto/response.dto';
 import { User } from 'src/auth/user.entity';
 import { MemoCredentialDto } from 'src/memo/dto/memo-credential.dto';
 import { Memo } from 'src/memo/memo.entity';
 
 import { GetUserId } from '../auth/get-user.decorator';
+import { SwaggerErrorDto } from './dto/swagger-error.dto';
+import { SwaggerResponseDto } from './dto/swagger-response.dto';
 
 import { Room } from './room.entity';
 import { RoomService } from './room.service';
@@ -42,19 +44,11 @@ export class RoomController {
           user: {
             id: 2,
             phone: '01093202207',
-            name: '박재민',
-            email: 'pjm2207@naver.com',
-            createAt: '2022-07-22T22:45:51.374Z',
-            updateAt: '2022-07-22T22:45:51.374Z',
-            password1: null,
           },
           memos: [
             {
               id: 1,
               title: '재민아',
-              content: '일좀해라',
-              createdAt: '2022-07-22T22:53:23.863Z',
-              updatedAt: '2022-07-22T22:53:37.218Z',
             },
           ],
         },
@@ -67,6 +61,10 @@ export class RoomController {
   }
 
   // 방명록 생성
+  @ApiOperation({
+    summary: '방명록 생성 API',
+    description: '방명록을 생성합니다.',
+  })
   @Post('/:id/memos')
   async createRoomMemos(
     @Body(ValidationPipe) memoCredentialDto: MemoCredentialDto,
@@ -76,6 +74,13 @@ export class RoomController {
     return this.roomService.createRoomMemos(memoCredentialDto, userId, id);
   }
 
+  @ApiOperation({
+    summary: '방 삭제 API',
+    description: '방을 삭제합니다.',
+  })
+  @ApiResponse(new SwaggerErrorDto(403, '권한이 없습니다.'))
+  @ApiResponse(new SwaggerErrorDto(404, '해당 라운지에 가입되어있지 않습니다.'))
+  @ApiResponse(new SwaggerResponseDto(200, '라운지를 탈퇴하였습니다.'))
   @Delete('/:id')
   async deleteRoomMemos(
     @Param('id') id: number,
@@ -85,6 +90,10 @@ export class RoomController {
   }
 
   // 방명록 전체조회
+  @ApiOperation({
+    summary: '방명록 전체 조회 API',
+    description: '방명록을 전체 조회합니다.',
+  })
   @ApiQuery({ name: 'page', required: false })
   @Get('/:id/memos')
   async getMyRoomMemos(
