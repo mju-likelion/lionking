@@ -13,7 +13,7 @@ export class LoungeRepository extends Repository<Lounge> {
       .select(['name', 'id'])
       .orderBy('lounge.createAt', 'ASC')
       .limit(3)
-      .offset(page)
+      .offset(page || 0)
       .execute();
 
     return { data: loungeData };

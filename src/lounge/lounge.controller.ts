@@ -9,7 +9,7 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiOkResponse, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOkResponse, ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { GetUserId } from 'src/auth/get-user.decorator';
 
 import { LoungeCredentialDto } from './dto/lounge-credential.dto';
@@ -42,6 +42,7 @@ export class LoungeController {
       },
     },
   })
+  @ApiQuery({ name: 'page', required: false })
   @ApiResponse(new SwaggerErrorDto(401, '라운지 정보를 불러올 수 없습니다.'))
   @Get()
   async Lounges(
