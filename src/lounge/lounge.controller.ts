@@ -110,8 +110,34 @@ export class LoungeController {
   }
 
   @ApiOperation(new SwaggerOperationDto('라운지 가입 API', '라운지에 가입합니다.'))
+  @ApiOkResponse({
+    description: '소속된 라운지 정보 응답',
+    schema: {
+      example: {
+        data: {
+          roomData: [
+            {
+              roomId: 1,
+              userName: '닉네임1',
+            },
+            {
+              roomId: 7,
+              userName: '닉네임2',
+            },
+            {
+              roomId: 8,
+              userName: '닉네임3',
+            },
+          ],
+          loungeName: {
+            name: '라운지명',
+          },
+        },
+      },
+    },
+  })
+  @ApiResponse(new SwaggerResponseDto(201, '라운지가입에 성공하였습니다.'))
   @ApiResponse(new SwaggerResponseDto(200, '라운지가입에 성공하였습니다.'))
-  @ApiResponse(new SwaggerErrorDto(401, '라운지에 가입할 수 없습니다.'))
   @Post('/:id')
   async joinLounge(@Param('id') id: string, @GetUserId() userId: number) {
     return this.loungeService.joinLounge(id, userId);

@@ -15,5 +15,6 @@ import { LoungeService } from './lounge.service';
   ],
   controllers: [LoungeController],
   providers: [LoungeService],
+  exports: [LoungeService],
 })
 export class LoungeModule {}

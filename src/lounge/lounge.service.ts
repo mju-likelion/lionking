@@ -58,17 +58,11 @@ export class LoungeService {
     const loungeData = await this.loungeRepository.findOne(id);
     const roomData = await this.roomRepository
       .createQueryBuilder('room')
-      .where('room.loungeId = (:id) AND room.userId = (:userId)', { id: loungeData.id, userId })
+      .where('room.loungeId = (:id) AND room.userId = (:userId)', { id, userId })
       .execute();
-
-    if (roomData.length) {
-      const myLounge = await this.roomRepository
-        .createQueryBuilder('room')
-        .leftJoinAndSelect('room.user', 'user.id')
-        .where('room.user =  userId', { userId })
-        .select(['room.id', 'name'])
-        .execute();
-      throw new HttpException({ data: myLounge }, 200);
+    if (roomData.length !== 0) {
+      const returnData = await this.findLounge(id);
+      throw new HttpException(returnData, 200);
     }
     await this.roomRepository.userCreateRoom(new CreateRoomDto(userData, loungeData));
     return new ResponseDto('라운지가입에 성공하였습니다.');
