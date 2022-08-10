@@ -64,6 +64,9 @@ export class LoungeService {
   async joinLounge(id: string, userId: number) {
     const userData = await this.userRepository.findOne(userId);
     const loungeData = await this.loungeRepository.findOne(id);
+    if (!loungeData) {
+      throw new HttpException({ error: { message: `${id} 해당 라운지가 없습니다` } }, 404);
+    }
     const roomData = await this.roomRepository
       .createQueryBuilder('room')
       .where('room.loungeId = (:id) AND room.userId = (:userId)', { id, userId })

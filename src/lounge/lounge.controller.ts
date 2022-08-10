@@ -169,6 +169,7 @@ export class LoungeController {
     },
   })
   @ApiResponse(new SwaggerResponseDto(201, '라운지가입에 성공하였습니다.'))
+  @ApiResponse(new SwaggerErrorDto(404, ' {id} 해당 라운지가 없습니다'))
   @Post('/:id')
   async joinLounge(@Param('id') id: string, @GetUserId() userId: number) {
     return this.loungeService.joinLounge(id, userId);
