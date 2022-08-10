@@ -99,6 +99,8 @@ export class AuthController {
     return this.authService.delPassword(userId);
   }
 
+  @ApiOperation(new SwaggerOperationDto('로그아웃 API', '로그아웃을 합니다.'))
+  @ApiResponse(new SwaggerResponseDto(200, '로그아웃에 성공하였습니다.'))
   @Delete('/sign-out')
   @UseGuards(AuthGuard())
   async signOut(@Res() res: Response): Promise<ResponseDto> {
