@@ -66,8 +66,8 @@ export class LoungeController {
           rooms: [
             {
               id: 1,
-              userId: 'asdf',
-              LoungeId: 'adsfasdf',
+              userId: 1,
+              LoungeId: 'ABCDEF',
             },
           ],
         },
