@@ -9,7 +9,7 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiBody, ApiOkResponse, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiBody, ApiOkResponse, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { GetUserId } from 'src/auth/get-user.decorator';
 
 import { MemoUpdateDto } from './dto/memo-update.dto';
@@ -20,6 +20,7 @@ import { Memo } from './memo.entity';
 import { MemoService } from './memo.service';
 
 @UseGuards(AuthGuard())
+@ApiTags('Memos')
 @Controller('api/memos')
 export class MemoController {
   constructor(private readonly memoService: MemoService) {}
