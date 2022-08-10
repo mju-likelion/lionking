@@ -19,6 +19,17 @@ export class LoungeRepository extends Repository<Lounge> {
     return { data: loungeData };
   }
 
+  // 마이페이지
+  async findLoungeName(loungeId: Array<string>) {
+    const loungeData = await this.createQueryBuilder('lounge')
+      .where('lounge.id IN (:loungeId)', { loungeId })
+      .select(['id', 'name'])
+      .orderBy('lounge.createAt', 'ASC')
+      .execute();
+
+    return loungeData;
+  }
+
   // 라운지 단일
   async findLounge(id: string) {
     const roomData = await this.findOne(id, { relations: ['rooms', 'rooms.user'] });
