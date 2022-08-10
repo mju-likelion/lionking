@@ -12,14 +12,15 @@ export class MemoRepository extends Repository<Memo> {
     memoCredentialDto: MemoCredentialDto,
     user: User,
     room: Room,
-  ): Promise<Memo> {
+  ): Promise<{ data: Memo }> {
     const { title, content } = memoCredentialDto;
 
     const memo = this.create({ title, content, user, room });
 
     try {
       await this.save(memo);
-      return memo;
+      const memoReturn = await this.findOne(memo.id, { select: ['id', 'title', 'content'] });
+      return { data: memoReturn };
     } catch (error) {
       throw new InternalServerErrorException();
     }
@@ -30,8 +31,9 @@ export class MemoRepository extends Repository<Memo> {
       .where('memo.userId IN (:userId) and memo.roomId IN (:roomId)', { userId, roomId })
       .limit(10)
       .offset(page || 0)
+      .select(['id', 'title', 'content'])
       .execute();
-    return memoData;
+    return { data: memoData };
   }
 
   async getRoom(roomId: number, userId: number) {

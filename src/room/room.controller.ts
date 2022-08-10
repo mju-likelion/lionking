@@ -38,23 +38,41 @@ export class RoomController {
     schema: {
       example: {
         data: {
-          id: 2,
-          createAt: '2022-07-22T22:51:44.739Z',
-          updateAt: '2022-07-22T22:51:44.739Z',
-          user: {
-            id: 2,
-            phone: '01093202207',
+          userName: {
+            name: 'Crmal',
           },
-          memos: [
+          memoData: [
+            {
+              id: 4,
+              title: '제목1',
+              content: '내용1',
+            },
             {
               id: 1,
-              title: '재민아',
+              title: '제목2',
+              content: '내용2',
+            },
+            {
+              id: 6,
+              title: '제목3',
+              content: '내용3',
+            },
+            {
+              id: 5,
+              title: '제목4',
+              content: '내용4',
+            },
+            {
+              id: 3,
+              title: '제목5',
+              content: '내용5',
             },
           ],
         },
       },
     },
   })
+  @ApiResponse(new SwaggerErrorDto(404, '{roomsId} 해당룸이 존재하지않습니다.'))
   @Get('/:id')
   async getRooms(@Param('id') id: number, @GetUserId() userId: number) {
     return this.roomService.getRoom(id, userId);
@@ -65,12 +83,25 @@ export class RoomController {
     summary: '방명록 생성 API',
     description: '방명록을 생성합니다.',
   })
+  @ApiResponse({
+    description: '생성한 방명록 응답',
+    schema: {
+      example: {
+        data: {
+          id: 4,
+          title: '제목1',
+          content: '내용1',
+        },
+      },
+    },
+    status: 201,
+  })
   @Post('/:id/memos')
   async createRoomMemos(
     @Body(ValidationPipe) memoCredentialDto: MemoCredentialDto,
     @GetUserId() userId: User,
     @Param('id') id: Room,
-  ): Promise<Memo> {
+  ): Promise<{ data: Memo }> {
     return this.roomService.createRoomMemos(memoCredentialDto, userId, id);
   }
 
@@ -94,13 +125,43 @@ export class RoomController {
     summary: '방명록 전체 조회 API',
     description: '방명록을 전체 조회합니다.',
   })
-  @ApiQuery({ name: 'page', required: false })
+  @ApiResponse({
+    description: '생성한 방명록 응답',
+    schema: {
+      example: {
+        data: [
+          {
+            id: 1,
+            title: '제목2',
+            content: '이름1',
+          },
+          {
+            id: 2,
+            title: '제목1',
+            content: '이름1',
+          },
+          {
+            id: 3,
+            title: '제목1',
+            content: '이름1',
+          },
+          {
+            id: 4,
+            title: '제목1',
+            content: '이름1',
+          },
+        ],
+      },
+    },
+    status: 201,
+  })
+  @ApiQuery({ name: 'page', required: false, description: 'default는 0, 10개씩 응답합니다.' })
   @Get('/:id/memos')
   async getMyRoomMemos(
     @Param('id') id: number,
     @GetUserId() userId: number,
     @Query('page') page: number,
-  ): Promise<Memo> {
+  ): Promise<{ data: Memo }> {
     return this.roomService.getMyRoomMemos(+id, +userId, page);
   }
 }

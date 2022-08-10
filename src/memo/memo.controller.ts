@@ -54,7 +54,7 @@ export class MemoController {
   }
 
   @ApiOperation(new SwaggerOperationDto('방명록 수정 API', '작성한 방명록의 내용을 수정합니다.'))
-  @ApiResponse(new SwaggerErrorDto(404, '해당 메모가 없습니다..'))
+  @ApiResponse(new SwaggerErrorDto(404, '해당 메모가 없습니다.'))
   @ApiResponse(new SwaggerErrorDto(403, '권한이 없습니다.'))
   @ApiOkResponse({
     description: '방명록 수정',

@@ -35,7 +35,7 @@ export class RoomService {
     memoCredentialDto: MemoCredentialDto,
     userId: User,
     loungeId: Room,
-  ): Promise<Memo> {
+  ): Promise<{ data: Memo }> {
     const roomId = await this.roomRepository.findOne(loungeId);
     const memo = await this.memoRepository.createRoomMemos(memoCredentialDto, userId, roomId);
     return memo;
