@@ -17,9 +17,9 @@ import { MemoCredentialDto } from 'src/memo/dto/memo-credential.dto';
 import { Memo } from 'src/memo/memo.entity';
 
 import { GetUserId } from '../auth/get-user.decorator';
+
 import { SwaggerErrorDto } from './dto/swagger-error.dto';
 import { SwaggerResponseDto } from './dto/swagger-response.dto';
-
 import { Room } from './room.entity';
 import { RoomService } from './room.service';
 
