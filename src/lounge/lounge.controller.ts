@@ -27,6 +27,38 @@ import { Lounge } from './lounges.entity';
 export class LoungeController {
   constructor(private readonly loungeService: LoungeService) {}
 
+  // 내 라운지 정보 전체 + 이름
+  @ApiOperation(
+    new SwaggerOperationDto('마이페이지 API', '내 이름과 소속된 라운지 n개를 보여줍니다.'),
+  )
+  @ApiOkResponse({
+    description: '마이페이지 API',
+    schema: {
+      example: {
+        data: {
+          loungeNames: [
+            {
+              id: 'I4RksW',
+              name: 'Crmal',
+            },
+          ],
+          userName: {
+            id: 1,
+            phone: '01011112222',
+            name: 'Crmal',
+            email: 'test@likelion.org',
+            createAt: '2022-08-10T09:16:41.614Z',
+            updateAt: '2022-08-10T09:16:41.614Z',
+          },
+        },
+      },
+    },
+  })
+  @Get('/mypage')
+  async myPage(@GetUserId() userId: number) {
+    return this.loungeService.myPage(userId);
+  }
+
   // 내 라운지 정보 전체
   @ApiOperation(
     new SwaggerOperationDto('내 라운지 정보 전체 API', '내가 소속된 라운지 리스트를 보여줍니다.'),
@@ -137,7 +169,6 @@ export class LoungeController {
     },
   })
   @ApiResponse(new SwaggerResponseDto(201, '라운지가입에 성공하였습니다.'))
-  @ApiResponse(new SwaggerResponseDto(200, '라운지가입에 성공하였습니다.'))
   @Post('/:id')
   async joinLounge(@Param('id') id: string, @GetUserId() userId: number) {
     return this.loungeService.joinLounge(id, userId);
