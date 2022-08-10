@@ -1,12 +1,12 @@
 import { Lounge } from '../lounges.entity';
 
 export class LoungeRoomDto {
-  constructor(userName: string[], loungeName: Lounge) {
-    this.userName = userName;
+  constructor(roomData: object, loungeName: Lounge) {
+    this.roomData = roomData;
     this.loungeName = loungeName;
   }
 
-  userName: string[];
+  roomData: object;
 
   loungeName: Lounge;
 }

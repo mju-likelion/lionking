@@ -38,8 +38,8 @@ export class LoungeService {
     if (!loungeName) {
       throw new HttpException({ error: { message: `${id} 해당 라운지가 없습니다` } }, 404);
     }
-    const userNames = await this.loungeRepository.findLounge(id);
-    return { data: new LoungeRoomDto(userNames, loungeName) };
+    const roomData = await this.loungeRepository.findLounge(id);
+    return { data: new LoungeRoomDto(roomData, loungeName) };
   }
 
   // 라운지 생성
