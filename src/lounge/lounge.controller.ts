@@ -42,13 +42,9 @@ export class LoungeController {
               name: 'Crmal',
             },
           ],
-          userName: {
+          user: {
             id: 1,
-            phone: '01011112222',
             name: 'Crmal',
-            email: 'test@likelion.org',
-            createAt: '2022-08-10T09:16:41.614Z',
-            updateAt: '2022-08-10T09:16:41.614Z',
           },
         },
       },
