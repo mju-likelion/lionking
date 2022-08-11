@@ -125,7 +125,7 @@ export class LoungeController {
       example: {
         data: {
           // eslint-disable-next-line no-template-curly-in-string
-          loungeId: 'https://liontown.city/lounges/${loungeData.id}',
+          loungeLink: 'https://liontown.city/lounges/ABCEDF',
         },
       },
     },
