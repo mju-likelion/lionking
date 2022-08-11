@@ -56,8 +56,8 @@ export class RoomService {
     return new ResponseDto(`라운지를 탈퇴하였습니다.`);
   }
 
-  async getMyRoomMemos(roomsId: number, userId: number, page: number) {
-    const memoData = await this.memoRepository.getMyRoomMemos(roomsId, userId, page);
+  async getMyRoomMemos(roomsId: number, userId: number) {
+    const memoData = await this.memoRepository.getMyRoomMemos(roomsId, userId);
     return memoData;
   }
 }

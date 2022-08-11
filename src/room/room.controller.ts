@@ -5,12 +5,11 @@ import {
   Get,
   Param,
   Post,
-  Query,
   UseGuards,
   ValidationPipe,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiOkResponse, ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOkResponse, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ResponseDto } from 'src/auth/dto/response.dto';
 import { User } from 'src/auth/user.entity';
 import { MemoCredentialDto } from 'src/memo/dto/memo-credential.dto';
@@ -155,13 +154,11 @@ export class RoomController {
     },
     status: 201,
   })
-  @ApiQuery({ name: 'page', required: false, description: 'default는 0, 10개씩 응답합니다.' })
   @Get('/:id/memos')
   async getMyRoomMemos(
     @Param('id') id: number,
     @GetUserId() userId: number,
-    @Query('page') page: number,
   ): Promise<{ data: Memo }> {
-    return this.roomService.getMyRoomMemos(+id, +userId, page);
+    return this.roomService.getMyRoomMemos(+id, +userId);
   }
 }

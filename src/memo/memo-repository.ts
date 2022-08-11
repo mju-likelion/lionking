@@ -26,11 +26,9 @@ export class MemoRepository extends Repository<Memo> {
     }
   }
 
-  async getMyRoomMemos(roomId: number, userId: number, page: number) {
+  async getMyRoomMemos(roomId: number, userId: number) {
     const memoData = await this.createQueryBuilder('memo')
       .where('memo.userId IN (:userId) and memo.roomId IN (:roomId)', { userId, roomId })
-      .limit(10)
-      .offset(page || 0)
       .select(['id', 'title', 'content'])
       .execute();
     return { data: memoData };
