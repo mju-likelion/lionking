@@ -70,13 +70,9 @@ export class LoungeController {
       },
     },
   })
-  @ApiQuery({ name: 'page', required: false })
   @Get()
-  async Lounges(
-    @GetUserId() userId: number,
-    @Query('page') page: number,
-  ): Promise<{ data: Lounge[] }> {
-    return this.loungeService.Lounges(userId, page);
+  async Lounges(@GetUserId() userId: number): Promise<{ data: Lounge[] }> {
+    return this.loungeService.Lounges(userId);
   }
 
   // 라운지 정보 단일

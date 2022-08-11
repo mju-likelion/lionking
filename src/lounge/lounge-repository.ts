@@ -7,13 +7,11 @@ import { Lounge } from './lounges.entity';
 @EntityRepository(Lounge)
 export class LoungeRepository extends Repository<Lounge> {
   // // 내 라운지 전체 보기
-  async findAllLounges(loungeId: Array<string>, page: number) {
+  async findAllLounges(loungeId: Array<string>) {
     const loungeData = await this.createQueryBuilder('lounge')
       .where('lounge.id IN (:loungeId)', { loungeId })
       .select(['id', 'name'])
       .orderBy('lounge.createAt', 'ASC')
-      .limit(3)
-      .offset(page || 0)
       .execute();
 
     return { data: loungeData };

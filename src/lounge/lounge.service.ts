@@ -24,10 +24,10 @@ export class LoungeService {
   ) {} // private roomRepository: RoomRepository,
 
   // 내 라운지 정보 전체
-  async Lounges(userId: number, page: number) {
+  async Lounges(userId: number) {
     const userData = await this.userRepository.findOne(userId);
     const loungeIds = await this.roomRepository.getLoungeId(userData);
-    const loungeNames = await this.loungeRepository.findAllLounges(loungeIds, page);
+    const loungeNames = await this.loungeRepository.findAllLounges(loungeIds);
 
     return loungeNames;
   }
