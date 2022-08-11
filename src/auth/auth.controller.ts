@@ -103,7 +103,7 @@ export class AuthController {
   @ApiResponse(new SwaggerResponseDto(200, '로그아웃에 성공하였습니다.'))
   @Delete('/sign-out')
   @UseGuards(AuthGuard())
-  async signOut(@Res() res: Response): Promise<ResponseDto> {
+  async signOut(@Res({ passthrough: true }) res: Response): Promise<ResponseDto> {
     return this.authService.signOut(res);
   }
 }
