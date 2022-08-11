@@ -19,6 +19,7 @@ async function bootstrap() {
   app.enableCors({
     origin: [/^https?:\/\/liontown.city$/, /^https?:\/\/local.liontown.city:3000$/],
     credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   });
   app.use(cookieParser());
 
