@@ -34,10 +34,10 @@ export class LoungeService {
 
   // 내 라운지 리스트 + 내 이름
   async myPage(userId: number) {
-    const userName = await this.userRepository.findOne(userId);
-    const loungeIds = await this.roomRepository.getLoungeId(userName);
+    const user = await this.userRepository.findOne(userId, { select: ['id', 'name'] });
+    const loungeIds = await this.roomRepository.getLoungeId(user);
     const loungeNames = await this.loungeRepository.findLoungeName(loungeIds);
-    return { data: { loungeNames, userName } };
+    return { data: { loungeNames, user } };
   }
 
   // 라운지 정보 단일
