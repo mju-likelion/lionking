@@ -22,7 +22,7 @@ export class MemoService {
   }
 
   async deleteMemo(id: number, userId: number) {
-    const memoCreateId = await this.memoRepository.findOne(id);
+    const memoCreateId = await this.memoRepository.findOne(id, { relations: ['user'] });
     if (memoCreateId.id !== userId) {
       throw new HttpException({ data: { error: '권한이 없습니다' } }, 403);
     }

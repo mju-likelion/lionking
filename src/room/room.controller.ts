@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Post,
   UseGuards,
   ValidationPipe,
@@ -73,7 +74,7 @@ export class RoomController {
   })
   @ApiResponse(new SwaggerErrorDto(404, '{roomsId} 해당룸이 존재하지않습니다.'))
   @Get('/:id')
-  async getRooms(@Param('id') id: number, @GetUserId() userId: number) {
+  async getRooms(@Param('id', ParseIntPipe) id: number, @GetUserId() userId: number) {
     return this.roomService.getRoom(id, userId);
   }
 
@@ -99,7 +100,7 @@ export class RoomController {
   async createRoomMemos(
     @Body(ValidationPipe) memoCredentialDto: MemoCredentialDto,
     @GetUserId() userId: User,
-    @Param('id') id: Room,
+    @Param('id', ParseIntPipe) id: Room,
   ): Promise<{ data: Memo }> {
     return this.roomService.createRoomMemos(memoCredentialDto, userId, id);
   }
@@ -112,11 +113,8 @@ export class RoomController {
   @ApiResponse(new SwaggerErrorDto(404, '해당 라운지에 가입되어있지 않습니다.'))
   @ApiResponse(new SwaggerResponseDto(200, '라운지를 탈퇴하였습니다.'))
   @Delete('/:id')
-  async deleteRoomMemos(
-    @Param('id') id: number,
-    @GetUserId() userId: number,
-  ): Promise<ResponseDto> {
-    return this.roomService.deleteRoomMemos(+id, +userId);
+  async deleteRoomMemos(@Param('id', ParseIntPipe) id: number): Promise<ResponseDto> {
+    return this.roomService.deleteRoomMemos(+id);
   }
 
   // 방명록 전체조회
@@ -156,7 +154,7 @@ export class RoomController {
   })
   @Get('/:id/memos')
   async getMyRoomMemos(
-    @Param('id') id: number,
+    @Param('id', ParseIntPipe) id: number,
     @GetUserId() userId: number,
   ): Promise<{ data: Memo }> {
     return this.roomService.getMyRoomMemos(+id, +userId);
