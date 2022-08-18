@@ -101,7 +101,7 @@ export class AuthService {
       await this.chcheManager.set<string>(email, token, { ttl: 60 * 60 });
 
       const sendEmail = new EmailVerifyDto(email, token);
-      this.emailService.emailSend(sendEmail, '비밀번호 변경', 'resetpassword.ejs');
+      await this.emailService.emailSend(sendEmail, '비밀번호 변경', 'resetpassword.ejs');
 
       return new ResponseDto('이메일을 발송하였습니다.');
     }

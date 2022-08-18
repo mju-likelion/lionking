@@ -17,6 +17,7 @@ import { AuthService } from './auth.service';
 import { AuthCredentialsDto } from './dto/auth-credential.dto';
 import { EmailSendDto } from './dto/email-send.dto';
 import { EmailVerifyDto } from './dto/email-verify.dto';
+import { ResetParamsDto } from './dto/reset-params.dto';
 import { ResetPasswordSendDto } from './dto/reset-password-send.dto';
 import { ResponseDto } from './dto/response.dto';
 import { SignInResponseDto } from './dto/sign-in-response.dto';
@@ -87,8 +88,11 @@ export class AuthController {
   @ApiResponse(new SwaggerResponseDto(201, '비밀번호를 변경하였습니다'))
   @ApiParam({ name: 'token', description: '토큰 6자리', example: 'qry4yc' })
   @Post('/reset-password/:token')
-  async resetPassword(@Param('token') token: string, @Body('password') password: string) {
-    return this.authService.resetPassword(password, token);
+  async resetPassword(
+    @Param('token', ValidationPipe) token: ResetParamsDto,
+    @Body('password', ValidationPipe) password: string,
+  ) {
+    return this.authService.resetPassword(password, token.token);
   }
 
   @ApiOperation(new SwaggerOperationDto('계정삭제 API', '로그인된 회원의 계정을 삭제합니다.'))
