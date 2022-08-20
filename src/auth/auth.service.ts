@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcryptjs';
 import { Cache } from 'cache-manager';
 import { add } from 'date-fns';
-import { Response } from 'express';
+import e, { Response } from 'express';
 import { random, times } from 'lodash';
 import { ResponseDto } from 'src/auth/dto/response.dto';
 import { EmailService } from 'src/email/email.service';
@@ -15,6 +15,7 @@ import { EmailVerifyDto } from './dto/email-verify.dto';
 import { ResetPasswordSendDto } from './dto/reset-password-send.dto';
 import { SignInResponseDto } from './dto/sign-in-response.dto';
 import { SignInDto } from './dto/sign-in.dto';
+import { SwaggerErrorDto } from './dto/swagger-error.dto';
 import { UserRepository } from './user-repository';
 
 @Injectable()
@@ -28,6 +29,10 @@ export class AuthService {
   ) {}
 
   async sendEmail(emailSendDto: EmailSendDto): Promise<ResponseDto> {
+    const userData = await this.userRepository.findOne({ where: { email: emailSendDto.email } });
+    if (!userData) {
+      throw new HttpException({ data: { error: '이미 등록된 아이디입니다.' } }, 409);
+    }
     const token = times(6, () => random(35).toString(36)).join('');
 
     await this.chcheManager.set<string>(emailSendDto.email, token, { ttl: 60 * 60 * 24 });
